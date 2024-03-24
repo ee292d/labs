@@ -1,15 +1,16 @@
-# Lab 1: Deploy a person detector on RPI
+# Lab 0: Set Up Your Raspberry Pi
 
 ## Requirements
 
  - Raspberry Pi 5 8GB.
- - Raspberry Pi Camera
- - USB keyboard and mouse.
- - HDMI display.
- - Blank SD card.
- - SD card reader.
+ - Raspberry Pi Camera.
+ - Blank SD Card.
+ - SD Card Reader.
  - Laptop.
- - Visual Studio Code application.
+ - Visual Studio Code Application.
+ - USB Keyboard and Mouse.
+ - HDMI Display.
+ - Micro to Regular HDMI Adaptor or Cable.
 
 ## Set up your Raspberry Pi
 
@@ -183,26 +184,78 @@ If any of them allow you to log in, then it's likely you've found the right
 address, and you should note it down to use instead of the text address in
 future commands.
 
-#### Connect the Display and Keyboard
+If you're still unable to connect, you can troubleshoot some more once you
+attach a monitor and keyboard. You won't be able to do remote login through
+VS Code until you have ssh working successfully, but if you do have a display
+you can open up the terminal on the board and enter the following command to 
+get the Pi's IP address:
 
+```bash
+ifconfig | grep 192.168
+```
 
+If this doesn't work, try to load a website in the Chromium browser on the Pi
+to make sure it's actually connected. If it isn't, try using the Wifi
+connection tool in the top right of the menu bar to re-enter your network
+details.
+
+#### Remote Login with VS Code
+
+Once you have the ssh command working, you can set up the Remote SSH extension
+in VS Code to easily edit files and run commands on the Pi from your laptop. To
+set this up, open a new VS Code window and click on the Extensions icon in the
+left sidebar. Search for "Remote SSH" and install the "Remote - SSH" extension
+from Microsoft.
+
+After it has installed, click the newly-added Remote Explorer icon on the
+sidebar. When you mouse over the SSH heading, you should see a plus icon to the
+right. Click on that, and type in the same address and username that you used 
+to ssh into the Pi earlier. For example, if you were able to ssh in using the
+command `ssh petewarden@petes-pi5.local`, you would enter 
+`petewarden@petes-pi5.local` into the text field. Once that's complete, you 
+should see an option to connect to the host. Click it.
+
+You should now see a new window appear. If you're using a password, you'll see
+a prompt to enter your password at the top. Once you're logged in there should
+be a few progress messages such as "Downloading VS Code Server". After they
+complete, you should see a small connection message in the bottom left of the
+window that says `SSH: petes-pi5.local`, but with your machine's name.
+
+If that process worked, choose "Clone Git Repository..." from the options on
+the start screen, and enter `https://github.com/ee292d/labs` when asked for the
+URL. Choose your user's home folder as the destination (this will look like 
+`/home/username` and should be the default choice). After it has downloaded,
+you'll be asked if you trust the authors of the repository, and you should
+choose yes to enable all the VS Code features.
+
+You should now be in a window that shows the contents of this repository in the
+left-hand pane. If you choose "Terminal->New Terminal" from the menu you can
+bring up a shell running on the board. You can now edit files and run commands
+on the Pi directly from your laptop, which is often a lot easier than other
+approaches to coding on the board.
+
+#### Connecting the Display and Keyboard
+
+You can do a lot of things through VS Code's remote connection, but there are
+some tasks, like troubleshooting network issues or displaying graphical 
+outputs, that are easier to do from the Pi's own desktop.
+
+Almost any HDMI-compatible display will work for a monitor, including a modern
+TV if that's all you have. The Pi itself uses an unusual type of HDMI port, 
+"HDMI Micro", so you'll need to make sure you either have a cable with one of
+these on one end, and a full-size HDMI plug on the other, or an adaptor that
+converts from Micro to regular, together with a standard HDMI cable. Most 
+starter kits should include one of these adaptors, so check what you received
+before you order a separate one.
+
+To connect to the display, power down the Pi, plug in the HDMI cable to one of
+the Micro HDMI ports on the board, and then power up the board again. The Pi
+can often work when "hot swapping" a monitor, but I find the most reliable way
+of getting a display working is ensuring it's connected and powered at boot
+time.
 
 #### Connect the Camera to the Pi
 
-
-#### Power up the Pi
-
-#### Connect to Wifi
-
-### Install VS Code on your Laptop
-
-#### Download the App
-
-#### Find the IP address of your Pi
-
-#### Create a Remote Connection
-
-#### Download this Repository
 
 ### Run an Image Labeling Model
 
