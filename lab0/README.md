@@ -40,7 +40,7 @@ Insert an SD card into the laptop's reader.
 
 Open the Imager tool.
 
-<image href="../images/docs/imager0.png" width="400px"/>
+<image src="doc_images/imager0.png" width="400px"/>
 
 Select "Raspberry Pi 5", "Raspberry Pi OS (64-bit)", and the reader device.
 
