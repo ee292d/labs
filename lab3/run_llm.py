@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Demonstrates how to run an large language model locally on a Raspberry Pi 5.
+# You'll need to follow the configuration steps in the README.md file before
+# you can run this.
+
 import llama_cpp
 
 MODEL_PATH = "orca-mini-3b/orca-mini-3b.ggmlv3.q4_0.bin"
