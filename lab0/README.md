@@ -44,28 +44,28 @@ Open the Imager tool.
 
 Select "Raspberry Pi 5", "Raspberry Pi OS (64-bit)", and the reader device.
 
-![Board choice screen](../images/docs/imager1.png)
+<image src="doc_images/imager1.png" width="400px"/>
 
-![OS choice screen](../images/docs/imager2.png)
+<image src="doc_images/imager2.png" width="400px"/>
 
-![Reader choice screen](../images/docs/imager3.png)
+<image src="doc_images/imager3.png" width="400px"/>
 
 Press "Write" and choose "Edit Settings" on the dialog that appears.
 
-![Reader choice screen](../images/docs/imager4.png)
+<image src="doc_images/imager4.png" width="400px"/>
 
 On the default settings tab, choose a network name for your board (like 
 <your name>pi5) and make a note of it, since it will be helpful for connecting
 later.
 
-![OS Settings screen](../images/docs/imager5.png)
+<image src="doc_images/imager5.png" width="400px"/>
 
 Enter your preferred user name and password, and make a note of these too.
 
 Enter the name and password of your Wifi network (or prefill it from the 
 keychain).
 
-![OS Services screen](../images/docs/imager6.png)
+<image src="doc_images/imager6.png" width="400px"/>
 
 Then go to the services tab and enable SSH. You've got a choice about how you
 want to connect to the board. Choosing password might be simpler, but if you 
@@ -76,7 +76,7 @@ keys too at a later stage.
 Choose "Yes" to apply the settings, and "Yes" again to erasing any existing
 data on the card.
 
-![Confirmation Dialog](../images/docs/imager7.png)
+<image src="doc_images/imager7.png" width="400px"/>
 
 Writing will take a few minutes. Once it's complete, take the card from the reader and insert it into the Raspberry Pi. Make sure the SD card is inserted so that 
 its metal contacts are facing towards the board.
@@ -246,30 +246,30 @@ set this up, open a new VS Code window and click on the Extensions icon in the
 left sidebar. Search for "Remote SSH" and install the "Remote - SSH" extension
 from Microsoft.
 
-![Extension Search](../images/docs/vscode1.png)
+<image src="doc_images/vscode1.png" width="400px"/>
 
 After it has installed, click the newly-added Remote Explorer icon on the
 sidebar. When you mouse over the SSH heading, you should see a plus icon to the
 right. 
 
-![Extension Settings](../images/docs/vscode5.png)
+<image src="doc_images/vscode5.png" width="400px"/>
 
 Click on that, and type in the same address and username that you used 
 to ssh into the Pi earlier. For example, if you were able to ssh in using the
 command `ssh petewarden@petes-pi5.local`, you would enter 
 `petewarden@petes-pi5.local` into the text field. 
 
-![Extension Settings](../images/docs/vscode6.png)
+<image src="doc_images/vscode6.png" width="400px"/>
 
 You'll be asked if you want to update your SSH settings, and you should choose
 the default location.
 
-![Extension Settings](../images/docs/vscode7.png)
+<image src="doc_images/vscode7.png" width="400px"/>
 
 Once that's complete, you should see an option to connect to the host. Click 
 it.
 
-![Extension Settings](../images/docs/vscode8.png)
+<image src="doc_images/vscode8.png" width="400px"/>
 
 You should now see a new window appear. If you're using a password, you'll see
 a prompt to enter your password at the top. Once you're logged in there should
@@ -277,28 +277,28 @@ be a few progress messages such as "Downloading VS Code Server". After they
 complete, you should see a small connection message in the bottom left of the
 window that says `SSH: petes-pi5.local`, but with your machine's name.
 
-![Start Screen](../images/docs/vscode10.png)
+<image src="doc_images/vscode10.png" width="400px"/>
 
 If that process worked, choose "Clone Git Repository..." from the options on
 the start screen, and enter `https://github.com/ee292d/labs` when asked for the
 URL. 
 
-![Enter Repo](../images/docs/vscode11.png)
+<image src="doc_images/vscode11.png" width="400px"/>
 
 Choose your user's home folder as the destination (this will look like 
 `/home/username` and should be the default choice). 
 
-![Enter Destination](../images/docs/vscode12.png)
+<image src="doc_images/vscode12.png" width="400px"/>
 
 After it has downloaded, you'll be asked if you'd like to open the repository,
 choose yes.
 
-![Open Dialog](../images/docs/vscode13.png)
+<image src="doc_images/vscode13.png" width="400px"/>
 
 Then you'll be asked if you trust the authors of the repository, and you should
 choose yes to enable all the VS Code features.
 
-![Open Dialog](../images/docs/vscode14.png)
+<image src="doc_images/vscode14.png" width="400px"/>
 
 You should now be in a window that shows the contents of this repository in the
 left-hand pane. If you choose "Terminal->New Terminal" from the menu you can
