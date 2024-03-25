@@ -1,6 +1,6 @@
-# Labs for the EE292D Edge ML class at Stanford
+# Labs for EE292D Edge ML
 
-EE292D at Stanford is a ten week class focused on running machine learning on
+EE292D is a ten week at Stanford class focused on running machine learning on
 edge devices. We're using Raspberry Pi 5 boards as our standard platform, and
 we teach students how to run vision, audio, and large language models locally,
 with no cloud connection (or charges).
