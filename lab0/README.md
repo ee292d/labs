@@ -65,7 +65,7 @@ Press "Write" and choose "Edit Settings" on the dialog that appears.
 <image src="doc_images/imager4.png" width="400px"/>
 
 On the default settings tab, choose a network name for your board (like 
-<your name>pi5) and make a note of it, since it will be helpful for connecting
+*your name*-pi5) and make a note of it, since it will be helpful for connecting
 later.
 
 <image src="doc_images/imager5.png" width="400px"/>
