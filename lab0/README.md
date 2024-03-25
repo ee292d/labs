@@ -3,6 +3,16 @@
 This tutorial shows how to set up your laptop and Raspberry Pi 5 board to run
 future machine learning labs in EE292D.
 
+ * [Hardware](#hardware)
+ * [Flash an SD Card](#flash-an-sd-card)
+ * [Install VS Code](#install-vs-code)
+ * [Remote login through SSH](#remote-login-through-ssh)
+ * [Troubleshooting Login Issues](#troubleshooting-login-issues)
+ * [Finding the Address of the Board](#finding-the-address-of-the-board)
+ * [Remote Login with VS Code](#remote-login-with-vs-code)
+ * [Connecting the Display and Keyboard](#connecting-the-display-and-keyboard)
+ * [Connect the Camera to the Pi](#connect-the-camera-to-the-pi)
+
 ## Hardware
 
 You'll need the following pieces of equipment to complete this guide:
@@ -326,20 +336,4 @@ can often work when "hot swapping" a monitor, but I find the most reliable way
 of getting a display working is ensuring it's connected and powered at boot
 time.
 
-#### Connect the Camera to the Pi
-
-
-### Run an Image Labeling Model
-
-#### Install TFLite
-
-```bash
-python3 -m pip install tflite-runtime
-```
-
-#### Make sure TFLite is Working
-
-```bash
-cd labs/lab1
-python3 label_image.py
-```
+## Connect the Camera to the Pi
