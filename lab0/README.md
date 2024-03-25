@@ -1,7 +1,7 @@
 # Lab 0: Set Up Your Raspberry Pi
 
 This tutorial shows how to set up your laptop and Raspberry Pi 5 board to run
-future machine learning labs in EE292D.
+machine learning labs in EE292D.
 
  * [Hardware](#hardware)
  * [Flash an SD Card](#flash-an-sd-card)
@@ -11,7 +11,8 @@ future machine learning labs in EE292D.
  * [Finding the Address of the Board](#finding-the-address-of-the-board)
  * [Remote Login with VS Code](#remote-login-with-vs-code)
  * [Connecting the Display and Keyboard](#connecting-the-display-and-keyboard)
- * [Connect the Camera to the Pi](#connect-the-camera-to-the-pi)
+ * [Cases and Cooling](#cases-and-cooling)
+ * [Next Steps](#next-steps)
 
 ## Hardware
 
@@ -65,8 +66,11 @@ Press "Write" and choose "Edit Settings" on the dialog that appears.
 <image src="doc_images/imager4.png" width="400px"/>
 
 On the default settings tab, choose a network name for your board (like 
-*your name*-pi5) and make a note of it, since it will be helpful for connecting
-later.
+*your name*-pi5, petes-pi5 in my case) and make a note of it, since it will be
+helpful for connecting later. If you're doing this in a classroom with other 
+people, you'll want to make sure the name is unique to your board, so you might
+need to add your last name if someone else shares your first name, for example
+pete-wardens-pi5.
 
 <image src="doc_images/imager5.png" width="400px"/>
 
@@ -94,6 +98,8 @@ its metal contacts are facing towards the board.
 Plug the power supply into the wall, and then into the USB C plug on the 
 Raspberry Pi. You should see a green LED near the USB C plug light up if it's
 receiving power.
+
+<image src="doc_images/power_led.jpg" width="400px"/>
 
 ## Install VS Code
 
@@ -330,10 +336,44 @@ converts from Micro to regular, together with a standard HDMI cable. Most
 starter kits should include one of these adaptors, so check what you received
 before you order a separate one.
 
-To connect to the display, power down the Pi, plug in the HDMI cable to one of
-the Micro HDMI ports on the board, and then power up the board again. The Pi
-can often work when "hot swapping" a monitor, but I find the most reliable way
-of getting a display working is ensuring it's connected and powered at boot
-time.
+To connect to the display, power down the Pi, plug in the HDMI cable to the
+HDMI port that's furthest from the USB C power supply, labeled HDMI 1 if your
+eyesight is better than mine. I found that the other HDMI port didn't show the
+desktop.
 
-## Connect the Camera to the Pi
+<image src="doc_images/hdmi_port.jpg" width="400px"/>
+
+After you've connected and powered up the monitor, power up the board again. 
+The Pi can often work when "hot swapping" a monitor, but I find the most 
+reliable way of getting a display working is ensuring it's connected and 
+powered at boot time. After a minute or so, you should see a desktop appear on
+your monitor.
+
+<image src="doc_images/desktop.jpg" width="400px"/>
+
+You'll need a USB keyboard and mouse too. I'm fond of 
+[the Reiie mini keyboard](https://www.amazon.com/dp/B06X9J8NG4) because it also
+includes a touchpad, though it's so small I wouldn't recommend using it for
+more than short periods of setup and data entry. You'll need to insert the BLE
+dongle into a USB port and ensure the switch on the back of the controller is
+slid to the right so that it's on.
+
+## Cases and Cooling
+
+So far we've been working with the Pi as a bare circuit board, with no case,
+heatsink, or fan. This is fine for getting started, but a case will help
+protect the board from damage, and a heatsink and a fan will ensure that you
+get the maximum speed out of your Pi, even under heavy load.
+
+Many starter kits will include a case, heatsink, and fan, but the details of
+how to attach them vary, so you should look at the instructions for your setup.
+If you don't have a case or fan, don't worry, it won't stop you being able to
+use your Pi, you just may see slower speeds on some of the examples as the CPU
+heats up and the clock rate is throttled.
+
+## Next Steps
+
+You should now have a fully-working Raspberry Pi 5 that you can program using
+Visual Studio Code from your laptop. You're now ready to learn about all the
+machine learning applications you can build on the system, with the rest of the
+labs.
