@@ -11,4 +11,4 @@ we're open sourcing all the code and documentation. If you want to learn how to
 run these models on a Pi yourself, here are links to the lab instructions:
 
  * [Lab 0: Set up your Raspberry Pi](https://github.com/ee292d/labs/blob/main/lab0/README.md)
- * [Lab 3: Run a Large Language Model](https://github.com/ee292d/labs/blob/main/lab3/README.md)
+ * [Lab 1: Run a Large Language Model](https://github.com/ee292d/labs/blob/main/lab1/README.md)
