@@ -114,7 +114,11 @@ instructions to install the application, and then open a new window.
 Give the board a few minutes to boot, and then with your laptop connected to
 the same Wifi network you entered into the Imager for the SD card, open a
 terminal window in VS Code. You can do this by going to the main menu and
-choosing "Terminal->New Terminal".
+choosing "Terminal->New Terminal". If you're on Windows, I recommend installing
+the [WSL Extension](https://code.visualstudio.com/docs/remote/wsl) for VS Code
+since that provides the Linux commands that you'll need below for network
+debugging. If you're experienced with SSH and are confident that your board is
+on the network, you can skip this section and jump to [Remote Login with VS Code](#remote-login-with-vs-code).
 
 To make sure you can connect, type the following in the terminal, with the
 name you gave to your Pi replacing 'petes-pi5', and the username you picked
