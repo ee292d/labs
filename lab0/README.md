@@ -19,11 +19,11 @@ machine learning labs in EE292D.
 You'll need the following pieces of equipment to complete this guide:
 
  - Raspberry Pi 5 8GB.
- - Raspberry Pi Camera.
- - Blank SD Card.
- - SD Card Reader.
+ - Blank Micro SD Card.
+ - Micro SD Card Reader.
  - Laptop.
  - USB Keyboard and Mouse.
+ - Micro HDMI to HDMI cable or adaptor.
  - HDMI Display.
 
 The keyboard, mouse, and display are optional but recommended. If you're a
@@ -45,7 +45,8 @@ card with an OS. I recommend picking a card with at least 32GB of space, and
 preferably more if possible, since this is also where you'll put your working
 files during development.
 
-On your laptop, download the Rapsberry Pi Imager tool for your operating system from [raspberrypi.com/software/](https://www.raspberrypi.com/software/).
+On your laptop, download the Raspberry Pi Imager tool for your operating system
+from [raspberrypi.com/software/](https://www.raspberrypi.com/software/).
 
 Insert an SD card into the laptop's reader.
 
@@ -92,8 +93,9 @@ data on the card.
 
 <image src="doc_images/imager7.png" width="400px"/>
 
-Writing will take a few minutes. Once it's complete, take the card from the reader and insert it into the Raspberry Pi. Make sure the SD card is inserted so that 
-its metal contacts are facing towards the board.
+Writing will take a few minutes. Once it's complete, take the card from the
+reader and insert it into the Raspberry Pi. Make sure the SD card is inserted
+so that its metal contacts are facing towards the board.
 
 Plug the power supply into the wall, and then into the USB C plug on the 
 Raspberry Pi. You should see a green LED near the USB C plug light up if it's
@@ -152,8 +154,10 @@ petewarden@petes-pi5:~ $
 
 Logging in remotely is one of the steps that's most likely to cause problems,
 because there are so many variables that affect the process, from your laptop's
-operating system, to the Wifi equipment, to the board itself. Here are some
-techniques that can help fix common errors.
+operating system, to the Wifi equipment, to the board itself. The Raspberry Pi
+team have put together [a great guide](https://www.raspberrypi.com/documentation/computers/remote-access.html#ip-address)
+to figuring out what's going wrong, but  here are some techniques that can help
+fix common errors.
 
 ### Finding the Address of the Board
 
