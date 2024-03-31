@@ -198,3 +198,7 @@ your Pi. If you have your own problems you want to solve with a classifier like
 this, you should be able to assemble an image dataset of a few hundred images
 per category, and run through these same steps to create and run your own 
 model.
+
+If you'd like to build your own application around a classifier model, you can
+look at the Python code in `classify_image.py`, make a copy, and then adapt it
+for your needs.
