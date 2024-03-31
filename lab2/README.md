@@ -61,7 +61,7 @@ You'll need these two pieces of hardware:
 
 If you're an EE292D student, you should already have received these.
 
-### Installation
+### Physical Installation
 
 I've found the installation process to be confusing and error-prone (I've
 destroyed at least one cable myself) so here are the steps I've found to be
