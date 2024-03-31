@@ -37,6 +37,11 @@ and SD cards that can otherwise be confusing to find compatible versions of.
  - [Reiie H9+ Mini Keyboard and Touchpad](https://www.amazon.com/dp/B06X9J8NG4).
  - [Loncevon 7 Inch Mini Monitor](https://www.amazon.com/dp/B06XQJVXHL).
 
+For Lab 2, you'll also need a camera and adaptor cable:
+
+ - [Raspberry Pi Camera Module v2](https://www.raspberrypi.com/products/camera-module-v2/)
+ - [Raspberry Pi Mini to Standard Camera Cable](https://www.raspberrypi.com/products/camera-cable/)
+
 ## Flash an SD Card
 
 Raspberry Pis use an SD card as their default drive for storage and the

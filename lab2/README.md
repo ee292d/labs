@@ -3,68 +3,76 @@
 This lab will show you how to run an image classification model on your Pi, and
 fine-tune it to recognize different kinds of objects.
 
+## Train your Model
+
+We'll be training our models on a cloud server, using Google's free Colab 
+service. [Open the notebook](https://colab.research.google.com/github/ee292d/labs/blob/main/lab2/notebook.ipynb)
+and follow the directions until you have a `best_int8.tflite` file downloaded
+onto your laptop.
+
+## Upload your Model to the Pi
+
+You should be remotely connected to your Pi through VS Code, with this 
+repository open. In the file explorer, open up the `models` folder.
+
+On your laptop, rename the `best_int8.tflite` file to `flower_model.tflite`.
+Then drag the file into the `models` folder in VS Code. It should upload the
+model to your board, looking like this:
+
+<image src="doc_images/flower_model_upload.png" width="344px"/>
+
+The name is only grayed out because I've set up our `.gitignore` file to avoid
+storing this particular file.
+
+## Install TensorFlow Lite
+
+We'll be using the TensorFlow Lite inference engine to run the model, so you'll
+need to install the Python module.
 
 ```bash
 pip install --break-system-packages tflite-runtime
 ```
 
-## Install Ultralytics
+## Test the Model
+
+This lab includes an example image of a dandelion that we can test the model on 
+with this command:
 
 ```bash
-pip install --break-system-packages ultralytics
-echo "PATH=${PATH}:~/.local/bin" >> ~/.bashrc
-source ~/.bashrc
+python lab2/classify_image.py --image=images/dandelion.jpg --model=models/flower_model.tflite --label_file=models/flower_labels.txt
 ```
 
-## Run Image Classification
+The three arguments are the image to run the model on, the path to the model 
+file, and the path to a labels file. I've prebuilt the labels file for this 
+model, but in general it should be a text file containing an alphabetical list
+of the class names from your dataset, each on a new line.
 
-```bash
-cd lab2
-python
-```
+## Installing the Camera
 
-```python
-from ultralytics import YOLO
+To take real advantage of an edge device like the Pi, we need local sensors to
+run our models on. To do this with the flower model we've just trained, I'll
+show you how to install a standard Raspberry Pi camera module.
 
-model = YOLO("yolov8n-cls.pt")
-_ = model("../images/grace_hopper.bmp")
-```
+### Requirements
 
-```bash
-curl -O http://download.tensorflow.org/example_images/flower_photos.tgz
-tar xzf flower_photos.tgz
-mkdir flower_photos/train
-mkdir flower_photos/test
-mv flower_photos/daisy flower_photos/train
-mv flower_photos/dandelion flower_photos/train
-mv flower_photos/roses flower_photos/train
-mv flower_photos/sunflowers flower_photos/train
-mv flower_photos/tulips flower_photos/train
+You'll need these two pieces of hardware:
+ - [Raspberry Pi Camera Module v2](https://www.raspberrypi.com/products/camera-module-v2/)
+ - [Raspberry Pi Mini to Standard Camera Cable](https://www.raspberrypi.com/products/camera-cable/). Unfortunately the Pi 5 introduced a new camera connector, so you'll need this adaptor.
 
-mkdir flower_photos/test/daisy
-mkdir flower_photos/test/dandelion
-mkdir flower_photos/test/roses
-mkdir flower_photos/test/sunflowers
-mkdir flower_photos/test/tulips
+If you're an EE292D student, you should already have received these.
 
-mv flower_photos/train/daisy/9*.jpg flower_photos/test/daisy/
-mv flower_photos/train/dandelion/9*.jpg flower_photos/test/dandelion/
-mv flower_photos/train/roses/9*.jpg flower_photos/test/roses/
-mv flower_photos/train/sunflowers/9*.jpg flower_photos/test/sunflowers/
-mv flower_photos/train/tulips/9*.jpg flower_photos/test/tulips/
-```
+### Installation
 
-```python
-from ultralytics import YOLO
+I've found the installation process to be confusing and error-prone (I've
+destroyed at least one cable myself) so here are the steps I've found to be
+most reliable:
 
-model = YOLO("yolov8n-cls.pt")
+Power down your Pi.
 
-freeze = [f'model.{x}.' for x in range(9)]
-for k, v in model.named_parameters():
-    v.requires_grad = True
-    if any(x in k for x in freeze):
-        print(f'freezing {k}')
-        v.requires_grad = False
-
-model.train(data="flower_photos")
-```
+Remove the standard cable from the camera module. The module ships with a cable
+that doesn't work with the Pi 5, so we need to swap it out. There is a small
+black tab that holds the cable in place, you'll need to use your fingernails to
+pop it open. You should then find that the cable comes out easily. Insert the
+larger end of the adapter cable into the slot, and push the tab back down.
+You'll need to make sure that the metallic contacts on the cable are facing
+toward the board.
