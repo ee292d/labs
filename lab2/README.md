@@ -47,7 +47,7 @@ file, and the path to a labels file. I've prebuilt the labels file for this
 model, but in general it should be a text file containing an alphabetical list
 of the class names from your dataset, each on a new line.
 
-## Installing the Camera
+## Install the Camera
 
 To take real advantage of an edge device like the Pi, we need local sensors to
 run our models on. To do this with the flower model we've just trained, I'll
