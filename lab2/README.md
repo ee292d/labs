@@ -47,6 +47,12 @@ file, and the path to a labels file. I've prebuilt the labels file for this
 model, but in general it should be a text file containing an alphabetical list
 of the class names from your dataset, each on a new line.
 
+You should see something like this:
+
+```bash
+
+```
+
 ## Install the Camera
 
 To take real advantage of an edge device like the Pi, we need local sensors to
@@ -76,3 +82,45 @@ pop it open. You should then find that the cable comes out easily. Insert the
 larger end of the adapter cable into the slot, and push the tab back down.
 You'll need to make sure that the metallic contacts on the cable are facing
 toward the board.
+
+<image src="doc_images/cam_cable1.jpg" width="400px"/>
+
+You'll now need to insert the other end of the cable into one of the two camera
+ports on the board. I find this very fiddly, since you first need to open the
+tab on the port you'll be using with your fingernails, and then push the tab
+back down while keeping the cable in position. The metallic contacts on the
+cable should be facing towards the Ethernet port on the board.
+
+<image src="doc_images/cam_cable2.jpg" width="400px"/>
+
+### Check the Camera
+
+Power the board up again, connect to it through VS Code, and then in the 
+terminal run this command:
+
+```bash
+rpicam-hello --list-cameras
+```
+
+You should see results like this:
+
+```bash
+Available cameras
+-----------------
+0 : imx219 [3280x2464 10-bit RGGB] (/base/axi/pcie@120000/rp1/i2c@88000/imx219@10)
+    Modes: 'SRGGB10_CSI2P' : 640x480 [206.65 fps - (1000, 752)/1280x960 crop]
+                             1640x1232 [41.85 fps - (0, 0)/3280x2464 crop]
+                             1920x1080 [47.57 fps - (680, 692)/1920x1080 crop]
+                             3280x2464 [21.19 fps - (0, 0)/3280x2464 crop]
+           'SRGGB8' : 640x480 [206.65 fps - (1000, 752)/1280x960 crop]
+                      1640x1232 [83.70 fps - (0, 0)/3280x2464 crop]
+                      1920x1080 [47.57 fps - (680, 692)/1920x1080 crop]
+                      3280x2464 [21.19 fps - (0, 0)/3280x2464 crop]
+```
+
+If instead you see the error message `No available cameras` then the connection
+hasn't worked. Power the Pi down again, and double check the orientation and
+seating of the cable at both ends. Try opening the tabs, reseating the cable,
+closing the tabs, and then checking again. Unfortunately I haven't found a 
+robust way to debug the exact problem when things aren't working, other than
+double-checking everything.
