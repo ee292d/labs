@@ -1,4 +1,4 @@
-# Fine-tuning an Image Model
+# Classify Images
 
 This lab will show you how to run an image classification model on your Pi, and
 fine-tune it to recognize different kinds of objects.
