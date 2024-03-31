@@ -12,3 +12,5 @@ run these models on a Pi yourself, here are links to the lab instructions:
 
  * [Lab 0: Set up your Raspberry Pi](https://github.com/ee292d/labs/blob/main/lab0/README.md)
  * [Lab 1: Run a Large Language Model](https://github.com/ee292d/labs/blob/main/lab1/README.md)
+ * [Lab 2: Classify Images](https://github.com/ee292d/labs/blob/main/lab2/README.md)
+ 
