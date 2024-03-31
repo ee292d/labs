@@ -3,6 +3,17 @@
 This lab will show you how to run an image classification model on your Pi, and
 fine-tune it to recognize different kinds of objects.
 
+ - [Train your Model](#train-your-model)
+ - [Upload your Model to the Pi](#upload-your-model-to-the-pi)
+ - [Install TensorFlow Lite](#install-tensorflow-lite)
+ - [Test the Model](#test-the-model)
+ - [Install the Camera](#install-the-camera)
+   - [Requirements](#requirements)
+   - [Physical Installation](#physical-installation)
+   - [Check the Camera](#check-the-camera)
+ - [Classify Camera Images](#classify-camera-images)
+ - [Next Steps](#next-steps)
+
 ## Train your Model
 
 We'll be training our models on a cloud server, using Google's free Colab 
@@ -50,8 +61,17 @@ of the class names from your dataset, each on a new line.
 You should see something like this:
 
 ```bash
-
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+0.526562: dandelion
+0.276494: daisy
+0.116604: tulip
+0.061870: rose
+0.018470: sunflower
+time: 13.087ms
 ```
+
+The exact scores and time may vary slightly, but if the model has trained
+correctly you should see "dandelion" as the top label.
 
 ## Install the Camera
 
@@ -124,3 +144,57 @@ seating of the cable at both ends. Try opening the tabs, reseating the cable,
 closing the tabs, and then checking again. Unfortunately I haven't found a 
 robust way to debug the exact problem when things aren't working, other than
 double-checking everything.
+
+## Classify Camera Images
+
+Once the camera is attached and working, we can re-run the classify images
+script to run on the camera's image instead of a file:
+
+```bash
+python lab2/classify_image.py \
+  --camera=0 \
+  --model=models/flower_model.tflite \
+  --label_file=models/flower_labels.txt \
+  --save_input=input.png
+```
+
+You should start to see a stream of results in the terminal after you run the
+command:
+
+```bash
+0.002438: sunflower
+time: 12.511ms
+0.782365: dandelion
+0.122996: daisy
+0.052883: tulip
+0.039291: rose
+0.002464: sunflower
+time: 11.934ms
+```
+
+You can press the Control and C keys at any time to stop the script. The
+arguments are similar to the first time we ran `classify_images.py`, but we've
+added `--camera=0` to indicate that it should use the input from the first 
+camera and `--save_input=input.png` to write the input to the model out to 
+disk. We can use this input file to view what the camera is seeing in real time
+by opening it in VS Code. Run the script and click on the `input.png` file from
+the VS Code explorer.
+
+<image src="doc_images/input_png.png" width="400px"/>
+
+You should see a new tab open in the editor, showing the output of the camera.
+While the script is running this will be continuously updating, giving a
+preview of what the camera is feeding the model. Open up [this test image of tulips](https://raw.githubusercontent.com/ee292d/labs/main/images/tulips.jpg)
+on your laptop screen and point the camera towards it until you see it well
+framed in the `input.png` preview. You should now see the terminal printing
+"tulip" as the top label.
+
+<image src="doc_images/tulip_cam.png" width="800px"/>
+
+## Next Steps
+
+You've now successfully trained and deployed a custom image classifier model on
+your Pi. If you have your own problems you want to solve with a classifier like
+this, you should be able to assemble an image dataset of a few hundred images
+per category, and run through these same steps to create and run your own 
+model.

@@ -1,5 +1,6 @@
 
 import argparse
+import shutil
 import time
 
 import numpy as np
@@ -49,7 +50,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   if args.camera is not None:
-    picam2 = Picamera2()
+    picam2 = Picamera2(camera_num=args.camera)
     picam2.start_preview(Preview.NULL)
     config = picam2.create_preview_configuration({
       "size": (320, 240),
@@ -81,7 +82,9 @@ if __name__ == "__main__":
       img = Image.fromarray(picam2.capture_array()).resize(size=(width, height), resample=Image.Resampling.LANCZOS)
 
     if args.save_input is not None:
-      img.save(args.save_input)
+      img.save("new_" + args.save_input)
+      # Do a file move to reduce flicker in VS Code.
+      shutil.move("new_" + args.save_input, args.save_input)
 
     # add N dim
     input_data = np.expand_dims(img, axis=0)

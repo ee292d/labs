@@ -1,3 +1,4 @@
 .DS_Store
 orca-mini-3b/
 /models/flower_model.tflite
+/input.png
