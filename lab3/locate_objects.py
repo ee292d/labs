@@ -77,8 +77,6 @@ if __name__ == "__main__":
   input_details = interpreter.get_input_details()
   output_details = interpreter.get_output_details()
 
-  print(output_details)
-
   # check the type of the input tensor
   floating_model = input_details[0]["dtype"] == np.float32
 
@@ -87,7 +85,12 @@ if __name__ == "__main__":
   input_width = input_details[0]["shape"][2]
 
   max_box_count = output_details[0]["shape"][2]
-  class_count = output_details[0]["shape"][1]
+  class_count = output_details[0]["shape"][1] - COORD_NUM
+
+  class_labels = load_labels(args.label_file)
+  if len(class_labels) != class_count:
+    print("Model has %d classes, but %d labels" % (class_count, len(class_labels)))
+    exit(0)
 
   while True:
     if args.camera is None:
@@ -131,15 +134,15 @@ if __name__ == "__main__":
           boxes.append([x * input_width, y * input_height, w * input_width, 
                         h * input_height, score, index])
 
-
     for box in boxes:
-      x = box[0]
-      y = box[1]
-      w = box[2]
-      h = box[3]
+      x = int(box[0])
+      y = int(box[1])
+      w = int(box[2])
+      h = int(box[3])
       score = box[4]
       class_index = box[5]
-      
+      class_label = class_labels[class_index]
+      print(f"{class_label}: {score:.2f} ({x}, {y}) {w}x{h}")
 
     print("time: {:.3f}ms".format((stop_time - start_time) * 1000))
 
