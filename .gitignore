@@ -1,4 +1,5 @@
 .DS_Store
-orca-mini-3b/
-/models/flower_model.tflite
 /input.png
+/models/flower_model.tflite
+/models/yolov8n_int8.tflite
+orca-mini-3b/
