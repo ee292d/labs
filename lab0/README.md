@@ -100,7 +100,8 @@ data on the card.
 
 Writing will take a few minutes. Once it's complete, take the card from the
 reader and insert it into the Raspberry Pi. Make sure the SD card is inserted
-so that its metal contacts are facing towards the board.
+so that its metal contacts are facing towards the board. The SD slot is on the
+underside of the board.
 
 Plug the power supply into the wall, and then into the USB C plug on the 
 Raspberry Pi. You should see a green LED near the USB C plug light up if it's
