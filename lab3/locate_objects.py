@@ -7,9 +7,9 @@ import numpy as np
 from PIL import Image, ImageDraw
 import tflite_runtime.interpreter as tflite
 
-from nms import non_max_suppression
+from picamera2 import Picamera2, Preview
 
-# from picamera2 import Picamera2, Preview
+from nms import non_max_suppression
 
 # How many coordinates are present for each box.
 COORD_NUM = 4
