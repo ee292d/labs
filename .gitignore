@@ -4,3 +4,4 @@ input.png
 /models/yolov8n_int8.tflite
 orca-mini-3b/
 output.png
+*.pyc

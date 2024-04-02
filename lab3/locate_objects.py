@@ -7,6 +7,8 @@ import numpy as np
 from PIL import Image, ImageDraw
 import tflite_runtime.interpreter as tflite
 
+from nms import non_max_suppression
+
 # from picamera2 import Picamera2, Preview
 
 # How many coordinates are present for each box.
@@ -134,10 +136,14 @@ if __name__ == "__main__":
           boxes.append([center_x * input_width, center_y * input_height, w * input_width, 
                         h * input_height, score, index])
 
+    # Clean up overlapping boxes. See 
+    # https://petewarden.com/2022/02/21/non-max-suppressions-how-do-they-work/
+    clean_boxes = non_max_suppression(boxes, class_count)
+
     if args.save_output is not None:
       img_draw = ImageDraw.Draw(img)
 
-    for box in boxes:
+    for box in clean_boxes:
       center_x = box[0]
       center_y = box[1]
       w = box[2]
