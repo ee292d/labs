@@ -4,7 +4,7 @@ import shutil
 import time
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 import tflite_runtime.interpreter as tflite
 
 # from picamera2 import Picamera2, Preview
@@ -124,25 +124,41 @@ if __name__ == "__main__":
     boxes = []
     for i in range(max_box_count):
       raw_box = results[i]
-      x = raw_box[0]
-      y = raw_box[1]
+      center_x = raw_box[0]
+      center_y = raw_box[1]
       w = raw_box[2]
       h = raw_box[3]
       class_scores = raw_box[COORD_NUM:]
       for index, score in enumerate(class_scores):
         if (score > args.score_threshold):
-          boxes.append([x * input_width, y * input_height, w * input_width, 
+          boxes.append([center_x * input_width, center_y * input_height, w * input_width, 
                         h * input_height, score, index])
 
+    if args.save_output is not None:
+      img_draw = ImageDraw.Draw(img)
+
     for box in boxes:
-      x = int(box[0])
-      y = int(box[1])
-      w = int(box[2])
-      h = int(box[3])
+      center_x = box[0]
+      center_y = box[1]
+      w = box[2]
+      h = box[3]
+      half_w = w / 2
+      half_h = h / 2
+      left_x = int(center_x - half_w)
+      right_x = int(center_x + half_w)
+      top_y = int(center_y - half_h)
+      bottom_y = int(center_y + half_h)
       score = box[4]
       class_index = box[5]
       class_label = class_labels[class_index]
-      print(f"{class_label}: {score:.2f} ({x}, {y}) {w}x{h}")
+      print(f"{class_label}: {score:.2f} ({center_x}, {center_y}) {w}x{h}")
+      if args.save_output is not None:
+        img_draw.rectangle(((left_x, top_y), (right_x, bottom_y)), fill=None)
+        img_draw.text((left_x, top_y), f"{class_label} {score:.2f}")
+
+    if args.save_output is not None:
+      img.save("new_" + args.save_output)
+      shutil.move("new_" + args.save_output, args.save_output)
 
     print("time: {:.3f}ms".format((stop_time - start_time) * 1000))
 
