@@ -157,7 +157,7 @@ if __name__ == "__main__":
       score = box[4]
       class_index = box[5]
       class_label = class_labels[class_index]
-      print(f"{class_label}: {score:.2f} ({center_x}, {center_y}) {w}x{h}")
+      print(f"{class_label}: {score:.2f} ({center_x:.0f}, {center_y:.0f}) {w:.0f}x{h:.0f}")
       if args.save_output is not None:
         img_draw.rectangle(((left_x, top_y), (right_x, bottom_y)), fill=None)
         img_draw.text((left_x, top_y), f"{class_label} {score:.2f}")
