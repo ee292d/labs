@@ -29,7 +29,7 @@ if __name__ == "__main__":
   parser.add_argument(
       "-m",
       "--model_file",
-      default="../models/yolov8n_int8.tflite",
+      default="../models/yolov8n_224_int8.tflite",
       help="TF Lite model to be executed")
   parser.add_argument(
       "-l",
