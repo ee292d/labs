@@ -21,6 +21,14 @@ service. [Open the notebook](https://colab.research.google.com/github/ee292d/lab
 and follow the directions until you have a `best_int8.tflite` file downloaded
 onto your laptop.
 
+If you aren't able to run the training notebook, you can still download an 
+example model and try the rest of the Pi commands by running this command:
+
+```bash
+cd ~/labs/lab2
+./download_model.sh
+```
+
 ## Upload your Model to the Pi
 
 You should be remotely connected to your Pi through VS Code, with this 
@@ -46,11 +54,21 @@ pip install --break-system-packages tflite-runtime
 
 ## Test the Model
 
+You need to first make sure you're in the `lab2` folder of this project by
+opening a terminal and running the `cd` command to move there:
+
+```bash
+cd ~/labs/lab2
+```
+
 This lab includes an example image of a dandelion that we can test the model on 
 with this command:
 
 ```bash
-python lab2/classify_image.py --image=images/dandelion.jpg --model=models/flower_model.tflite --label_file=models/flower_labels.txt
+python classify_image.py \
+  --image=../images/dandelion.jpg \
+  --model=../models/flower_model.tflite \
+  --label_file=../models/flower_labels.txt
 ```
 
 The three arguments are the image to run the model on, the path to the model 
@@ -151,10 +169,10 @@ Once the camera is attached and working, we can re-run the classify images
 script to run on the camera's image instead of a file:
 
 ```bash
-python lab2/classify_image.py \
+python classify_image.py \
   --camera=0 \
-  --model=models/flower_model.tflite \
-  --label_file=models/flower_labels.txt \
+  --model=../models/flower_model.tflite \
+  --label_file=../models/flower_labels.txt \
   --save_input=input.png
 ```
 
