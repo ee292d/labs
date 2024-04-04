@@ -37,7 +37,7 @@ We need this particular version for the model file we'll be using.
 
 ## Model Downloading
 
-Enter into this `lab3` folder, for example with the `cd lab3` command if you're
+Enter into this `lab1` folder, for example with the `cd lab1` command if you're
 in the root directory of this repository. Then start model downloading with:
 
 ```bash
