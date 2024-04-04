@@ -22,7 +22,7 @@ and follow the directions until you have a `best_int8.tflite` file downloaded
 onto your laptop.
 
 *If you aren't able to run the training notebook, you can still download an 
-example model and try the rest of the Pi commands by running this command:*
+example model and try it out on the Pi by running this:*
 
 ```bash
 cd ~/labs/lab2
