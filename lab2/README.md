@@ -21,8 +21,8 @@ service. [Open the notebook](https://colab.research.google.com/github/ee292d/lab
 and follow the directions until you have a `best_int8.tflite` file downloaded
 onto your laptop.
 
-If you aren't able to run the training notebook, you can still download an 
-example model and try the rest of the Pi commands by running this command:
+*If you aren't able to run the training notebook, you can still download an 
+example model and try the rest of the Pi commands by running this command:*
 
 ```bash
 cd ~/labs/lab2

@@ -17,6 +17,14 @@ Google's free Colab service. [Open the notebook](https://colab.research.google.c
 and follow the directions until you have completed the [Download a Model](https://colab.research.google.com/github/ee292d/labs/blob/main/lab3/notebook.ipynb#scrollTo=8Ne3OOfjut-F&line=6&uniqifier=1)
 step and have the `yolov8n_int8.tflite` file downloaded.
 
+*If you aren't able to run the training notebook, you can still download an 
+example model and try the rest of the Pi commands by running this command:*
+
+```bash
+cd ~/labs/lab3
+./download_models.sh
+```
+
 ## Upload your Model to the Pi
 
 You should be remotely connected to your Pi through VS Code, with this 
@@ -31,7 +39,10 @@ test the model on using this command:
 
 ```bash
 cd ~/labs/lab3
-python locate_objects.py --model_file=../models/yolov8n_int8.tflite --label_file=../models/yolov8_labels.txt --image=../images/bus.jpg
+python locate_objects.py \
+  --model_file=../models/yolov8n_int8.tflite \
+  --label_file=../models/yolov8_labels.txt \
+  --image=../images/bus.jpg
 ```
 
 The three arguments are the path to the model file, the path to a labels file,
