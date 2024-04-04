@@ -3,6 +3,13 @@
 This lab will show you how to run pretrained models to locate people and 
 objects in images, optimize their latency, and train on custom classes.
 
+ - [Train your Model](#train-your-model)
+ - [Upload your Model to the Pi](#upload-your-model-to-the-pi)
+ - [Test the Model](#test-the-model)
+ - [Train a Custom Model](#train-a-custom-model)
+ - [Run a Custom Model](#run-a-custom-model)
+ - [Next Steps](#next-steps)
+
 ## Train your Model
 
 Just like in Lab 2, we'll be training our models on a cloud server, using
