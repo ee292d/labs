@@ -201,7 +201,7 @@ def weighted_non_max_suppression(options, indexed_scores, coords, max_num_detect
 
   return detections
 
-def non_max_suppression_internal(options, scores, coords):
+def non_max_suppression(options, scores, coords):
   indexed_scores = []
   for i in range(options["num_boxes"]):
     indexed_scores.append((i, scores[i]))
@@ -244,8 +244,8 @@ def nms_detections_to_box(nms_detections, class_index):
     result.append([center_x, center_y, w, h, score, class_index])
   return result
 
-def non_max_suppression(boxes, class_count):
-  nms_options = {
+def non_max_suppression_yolov8(boxes, class_count, is_pose):
+  yolov8_options = {
     "max_num_detections": -1,
     "min_score_threshold": 0.1,
     "min_suppression_threshold": 0.1,
@@ -269,8 +269,8 @@ def non_max_suppression(boxes, class_count):
       class_scores.append(box[4])
     if len(class_scores) == 0:
       continue
-    nms_options["num_boxes"] = len(class_scores)
-    clean_class_detections = non_max_suppression_internal(nms_options, class_scores, class_boxes)
+    yolov8_options["num_boxes"] = len(class_scores)
+    clean_class_detections = non_max_suppression(yolov8_options, class_scores, class_boxes)
     result = result + nms_detections_to_box(clean_class_detections, class_index)
   result.sort(key=lambda box: box[4], reverse=True)
   return result

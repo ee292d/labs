@@ -9,10 +9,10 @@ import tflite_runtime.interpreter as tflite
 
 from picamera2 import Picamera2, Preview
 
-from nms import non_max_suppression
+from nms import non_max_suppression_yolov8
 
 # How many coordinates are present for each box.
-COORD_NUM = 4
+BOX_COORD_NUM = 4
 
 def load_labels(filename):
   with open(filename, "r") as f:
@@ -56,6 +56,11 @@ if __name__ == "__main__":
       "--score_threshold",
       default=0.6, type=float,
       help="Score level needed to include results")
+  parser.add_argument(
+    "--output_format",
+    default="yolov8",
+    help="How to interpret the output from the model"
+  )
 
 
   args = parser.parse_args()
@@ -76,6 +81,8 @@ if __name__ == "__main__":
       num_threads=args.num_threads)
   interpreter.allocate_tensors()
 
+  class_labels = load_labels(args.label_file)
+
   input_details = interpreter.get_input_details()
   output_details = interpreter.get_output_details()
 
@@ -87,9 +94,17 @@ if __name__ == "__main__":
   input_width = input_details[0]["shape"][2]
 
   max_box_count = output_details[0]["shape"][2]
-  class_count = output_details[0]["shape"][1] - COORD_NUM
 
-  class_labels = load_labels(args.label_file)
+  if args.output_format == "yolov8":
+    class_count = output_details[0]["shape"][1] - BOX_COORD_NUM
+    keypoint_count = 0
+  elif args.output_format == "yolov8_pose":
+    class_count = 1
+    keypoint_count = (output_details[0]["shape"][1] - (BOX_COORD_NUM + 1)) / 3
+  else:
+    print(f"Unknown output format {args.output_format}")
+    exit(0)
+
   if len(class_labels) != class_count:
     print("Model has %d classes, but %d labels" % (class_count, len(class_labels)))
     exit(0)
@@ -130,7 +145,7 @@ if __name__ == "__main__":
       center_y = raw_box[1]
       w = raw_box[2]
       h = raw_box[3]
-      class_scores = raw_box[COORD_NUM:]
+      class_scores = raw_box[BOX_COORD_NUM:]
       for index, score in enumerate(class_scores):
         if (score > args.score_threshold):
           boxes.append([center_x * input_width, center_y * input_height, w * input_width, 
@@ -138,7 +153,13 @@ if __name__ == "__main__":
 
     # Clean up overlapping boxes. See 
     # https://petewarden.com/2022/02/21/non-max-suppressions-how-do-they-work/
-    clean_boxes = non_max_suppression(boxes, class_count)
+    if args.output_format == "yolov8":
+      clean_boxes = non_max_suppression_yolov8(boxes, class_count, False)
+    elif args.output_format == "yolov8_pose":
+      clean_boxes = non_max_suppression_yolov8(boxes, class_count, True)
+    else:
+      print(f"Unknown output format {args.output_format}")
+      exit(0)
 
     if args.save_output is not None:
       img_draw = ImageDraw.Draw(img)
