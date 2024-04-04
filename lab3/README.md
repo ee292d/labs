@@ -6,7 +6,7 @@ objects in images, optimize their latency, and train on custom classes.
 ## Train your Model
 
 Just like in Lab 2, we'll be training our models on a cloud server, using
-Google's free Colab service. [Open the notebook](https://colab.research.google.com/github/ee292d/labs/blob/main/lab2/notebook.ipynb)
+Google's free Colab service. [Open the notebook](https://colab.research.google.com/github/ee292d/labs/blob/main/lab3/notebook.ipynb)
 and follow the directions until you have completed the [Download a Model](https://colab.research.google.com/github/ee292d/labs/blob/main/lab3/notebook.ipynb#scrollTo=8Ne3OOfjut-F&line=6&uniqifier=1)
 step and have the `yolov8n_int8.tflite` file downloaded.
 
