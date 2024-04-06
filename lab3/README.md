@@ -59,7 +59,8 @@ person: 0.66 (205, 123) 37x117
 time: 24.521ms
 ```
 
-To have some fun with it, you can also take live camera input and output the results to an image you can view in VS Code, with this command:
+To have some fun with it, you can also take live camera input and output the
+results to an image you can view in VS Code, with this command:
 
 ```bash
 python locate_objects.py \
@@ -92,3 +93,12 @@ python locate_objects.py \
 ```
 
 ## Next Steps
+
+```bash
+python locate_objects.py \
+  --model_file=../models/yolov8n-pose_int8.tflite \
+  --output_format=yolov8_pose \
+  --label_file=../models/yolov8-pose_labels.txt \
+  --image=../images/bus.jpg \
+  --save_output=output.png
+```

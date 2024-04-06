@@ -11,9 +11,6 @@ NMS_INTERSECTION_OVER_UNION = 3
 NMS_DEFAULT = 0,
 NMS_WEIGHTED = 1,
 
-NUM_KEYPOINTS_PER_BOX = 0
-NUM_COORDS_PER_KEYPOINT = 2
-
 def rect_is_empty(rect):
   return rect["min_x"] > rect["max_x"] or rect["min_y"] > rect["max_y"]
 
@@ -118,43 +115,49 @@ def unweighted_non_max_suppression(options, indexed_scores, coords, max_num_dete
   return detections
 
 def weighted_non_max_suppression(options, indexed_scores, coords, max_num_detections):
+  num_coords = options["num_coords"]
+  box_coord_offset = options["box_coord_offset"]
+  keypoint_coord_offset = options["keypoint_coord_offset"]
   num_keypoints = options["num_keypoints"]
+  num_values_per_keypoint = options["num_values_per_keypoint"]
+  min_score_threshold = options["min_score_threshold"]
+  min_suppression_threshold = options["min_suppression_threshold"]
+
   remained_indexed_scores = indexed_scores
   detections = []
   while len(remained_indexed_scores) > 0:
     indexed_score = remained_indexed_scores[0]
     original_indexed_scores_size = len(remained_indexed_scores)
-    candidate_coords_offset = indexed_score[0] * options["num_coords"]
-    offset = candidate_coords_offset + options["box_coord_offset"]
+    candidate_coords_offset = indexed_score[0] * num_coords
+    offset = candidate_coords_offset + box_coord_offset
     candidate_box_coords = coords[offset:offset+4]
     candidate_rect = rect_from_coords(candidate_box_coords)
-    candidate_keypoints_offset = candidate_coords_offset + options["keypoint_coord_offset"]
-    candidate_keypoints_offset_end = candidate_keypoints_offset + num_keypoints * NUM_COORDS_PER_KEYPOINT
+    candidate_keypoints_offset = candidate_coords_offset + keypoint_coord_offset
+    candidate_keypoints_offset_end = candidate_keypoints_offset + num_keypoints * num_values_per_keypoint
     candidate_keypoints_coords = coords[candidate_keypoints_offset:candidate_keypoints_offset_end]
     candidate_detection = {
       "rect": candidate_rect,
       "score": indexed_score[1],
       "keypoints": candidate_keypoints_coords,
     }
-    if options["min_score_threshold"] > 0.0 and candidate_detection["score"] < options["min_score_threshold"]:
+    if min_score_threshold > 0.0 and candidate_detection["score"] < min_score_threshold:
       break;
     remained = []
     candidates = []
-    candidate_location = candidate_detection["rect"]
     for remained_indexed_score in remained_indexed_scores:
-      remained_coords_offset = remained_indexed_score[0] * options["num_coords"]
-      remained_offset = remained_coords_offset + options["box_coord_offset"]
+      remained_coords_offset = remained_indexed_score[0] * num_coords
+      remained_offset = remained_coords_offset + box_coord_offset
       remained_box_coords = coords[remained_offset:remained_offset+4]
       remained_rect = rect_from_coords(remained_box_coords)
       similarity = overlap_similarity(options["overlap_type"], remained_rect, candidate_rect)
-      if similarity > options["min_suppression_threshold"]:
+      if similarity > min_suppression_threshold:
         candidates.append(remained_indexed_score)
       else:
         remained.append(remained_indexed_score)
-    if len(candidates) == 1:
+    if len(candidates) == 0:
       weighted_detection = candidate_detection
     else:
-      keypoints = [0.0] * NUM_KEYPOINTS_PER_BOX * NUM_COORDS_PER_KEYPOINT
+      keypoints = [0.0] * num_keypoints * num_values_per_keypoint
       w_xmin = 0.0
       w_ymin = 0.0
       w_xmax = 0.0
@@ -163,8 +166,8 @@ def weighted_non_max_suppression(options, indexed_scores, coords, max_num_detect
       for sub_indexed_score in candidates:
         sub_score = sub_indexed_score[1]
         total_score += sub_score
-        sub_coords_offset = sub_indexed_score[0] * options["num_coords"]
-        sub_offset = sub_coords_offset + options["box_coord_offset"]
+        sub_coords_offset = sub_indexed_score[0] * num_coords
+        sub_offset = sub_coords_offset + box_coord_offset
         sub_box_coords = coords[sub_offset:sub_offset+4]
         sub_rect = rect_from_coords(sub_box_coords)
         w_xmin += sub_rect["min_x"] * sub_score
@@ -172,12 +175,13 @@ def weighted_non_max_suppression(options, indexed_scores, coords, max_num_detect
         w_xmax += sub_rect["max_x"] * sub_score
         w_ymax += sub_rect["max_y"] * sub_score
 
-        sub_keypoints_offset = sub_coords_offset + options["keypoint_coord_offset"]
-        sub_keypoints_offset_end = sub_keypoints_offset + num_keypoints * NUM_COORDS_PER_KEYPOINT
+        sub_keypoints_offset = sub_coords_offset + keypoint_coord_offset
+        sub_keypoints_offset_end = sub_keypoints_offset + num_keypoints * num_values_per_keypoint
         sub_keypoints_coords = coords[sub_keypoints_offset:sub_keypoints_offset_end]
         for k in range(num_keypoints):
-          keypoints[k * 2] += sub_keypoints_coords[k * 2] * sub_score;
-          keypoints[(k * 2) + 1] += sub_keypoints_coords[(k * 2) + 1] * sub_score;
+          for coord_index in range(num_values_per_keypoint):
+            index = (k * num_values_per_keypoint) + coord_index
+            keypoints[index] += sub_keypoints_coords[index] * sub_score;
       
       weighted_detection = {
         "rect": {
@@ -188,10 +192,11 @@ def weighted_non_max_suppression(options, indexed_scores, coords, max_num_detect
           },
         "score": indexed_score[1],
       }
-      weighted_detection["keypoints"] = [None] * num_keypoints * NUM_COORDS_PER_KEYPOINT
+      weighted_detection["keypoints"] = [None] * num_keypoints * options["num_values_per_keypoint"]
       for k in range(num_keypoints):
-        weighted_detection["keypoints"][k * 2] = keypoints[k * 2] / total_score
-        weighted_detection["keypoints"][(k * 2) + 1] = keypoints[(k * 2) + 1] / total_score
+        for coord_index in range(num_values_per_keypoint):
+          index = (k * num_values_per_keypoint) + coord_index
+          weighted_detection["keypoints"][index] = keypoints[index] / total_score
 
     detections.append(weighted_detection)
     if original_indexed_scores_size == len(remained):
@@ -215,7 +220,7 @@ def non_max_suppression(options, scores, coords):
   else:
     return unweighted_non_max_suppression(options, indexed_scores, coords, max_num_detections)
 
-def box_to_nms_box(box):
+def box_to_nms_box(box, keypoint_count):
   center_x = box[0]
   center_y = box[1]
   w = box[2]
@@ -226,7 +231,11 @@ def box_to_nms_box(box):
   min_y = center_y - half_h
   max_x = center_x + half_w
   max_y = center_y + half_h
-  return [min_x, min_y, max_x, max_y]
+  result = [min_x, min_y, max_x, max_y]
+  for i in range(keypoint_count):
+    index = 6 + (i * 3)
+    result += [box[index], box[index + 1], box[index + 2]]
+  return result
 
 def nms_detections_to_box(nms_detections, class_index):
   result = []
@@ -241,20 +250,24 @@ def nms_detections_to_box(nms_detections, class_index):
     w = max_x - min_x
     h = max_y - min_y
     score = detection["score"]
-    result.append([center_x, center_y, w, h, score, class_index])
+    box = [center_x, center_y, w, h, score, class_index]
+    keypoints = detection["keypoints"]
+    box += keypoints
+    result.append(box)
   return result
 
-def non_max_suppression_yolov8(boxes, class_count, is_pose):
+# YOLOv8 box layout is [center x, center y, width, height, score, class, keypoints ...]
+def non_max_suppression_yolov8(boxes, class_count, keypoint_count):
   yolov8_options = {
     "max_num_detections": -1,
     "min_score_threshold": 0.1,
     "min_suppression_threshold": 0.1,
     "overlap_type": NMS_INTERSECTION_OVER_UNION,
     "algorithm": NMS_WEIGHTED,
-    "num_coords": 4,
-    "keypoint_coord_offset": 0,
-    "num_keypoints": 0,
-    "num_values_per_keypoint": 0,
+    "num_coords": 4 + (keypoint_count * 3),
+    "keypoint_coord_offset": 4,
+    "num_keypoints": keypoint_count,
+    "num_values_per_keypoint": 3,
     "box_coord_offset": 0,
   }
   result = []
@@ -265,7 +278,7 @@ def non_max_suppression_yolov8(boxes, class_count, is_pose):
       current_class_index = box[5]
       if current_class_index != class_index:
         continue
-      class_boxes = class_boxes + box_to_nms_box(box)
+      class_boxes = class_boxes + box_to_nms_box(box, keypoint_count)
       class_scores.append(box[4])
     if len(class_scores) == 0:
       continue
