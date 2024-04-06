@@ -63,7 +63,7 @@ To have some fun with it, you can also take live camera input and output the res
 
 ```bash
 python locate_objects.py \
-  --model_file=../models/yolov8n_224_int8.tflite \
+  --model_file=../models/yolov8n_int8.tflite \
   --label_file=../models/yolov8_labels.txt \
   --camera=0 \
   --save_output=output.png
