@@ -10,6 +10,7 @@ objects in images, optimize their latency, and train on custom classes.
  - [Run a Custom Model](#run-a-custom-model)
  - [Next Steps](#next-steps)
     - [Human Pose](#human-pose)
+    - [Reading Text](#reading-text)
 
 ## Train your Model
 
@@ -133,3 +134,13 @@ handled by the non-max suppression process which takes the raw output of the
 model (which consists of a lot of overlapping boxes and their keypoints) and
 merges them into a few clean boxes and poses. You can read more about this NMS
 process in [Non-Max Suppressions - How do they Work?](https://petewarden.com/2022/02/21/non-max-suppressions-how-do-they-work/).
+
+### Reading Text
+
+Finding text in a natural scene and reading it is known as "scene OCR", and you
+can give it a try for yourself by installing EasyOCR with `pip install 
+--break-system-packages easyocr` and then running `python ./read_text.py`.
+
+Unfortunately this takes over 30 seconds per frame, even on a Pi 5, so it's not
+useful for real time applications. I hope that we'll see smaller models emerge
+for this task in the future.
