@@ -11,6 +11,7 @@ objects in images, optimize their latency, and train on custom classes.
  - [Next Steps](#next-steps)
     - [Human Pose](#human-pose)
     - [Performance Tradeoffs](#performance-tradeoffs)
+    - [Mediapipe Models](#mediapipe-models)
     - [Reading Text](#reading-text)
 
 ## Train your Model
@@ -146,6 +147,13 @@ which offer increased accuracy at the cost of slower latency. Another tradeoff
 you can look at is the input image size, set by the `imgsz` parameter when
 exporting. You can expand the image size to capture finer detail, but the model
 will take longer to deal with the larger image.
+
+### Mediapipe Models
+
+The [Mediapipe project from Google](https://developers.googleblog.com/2023/05/introducing-mediapipe-solutions-for-on-device-machine-learning.html)
+is another great source of pretrained models for a lot of different tasks, 
+including face and hand detection, gesture recognition, and segmentation. You
+can find an example for the Raspberry Pi [here](https://github.com/googlesamples/mediapipe/tree/main/examples/object_detection/raspberry_pi).
 
 ### Reading Text
 
