@@ -9,6 +9,7 @@ objects in images, optimize their latency, and train on custom classes.
  - [Train a Custom Model](#train-a-custom-model)
  - [Run a Custom Model](#run-a-custom-model)
  - [Next Steps](#next-steps)
+    - [Human Pose](#human-pose)
 
 ## Train your Model
 
@@ -94,6 +95,15 @@ python locate_objects.py \
 
 ## Next Steps
 
+There are a lot of other kinds of information you can retrieve from images
+using computer vision. Here are some bonus examples to show some of those.
+
+### Human Pose
+
+Ultralytics includes an excellent pose detection model as part of their YOLOv8
+collection. I've included a pretrained model in this repository which you can
+try out with this command:
+
 ```bash
 python locate_objects.py \
   --model_file=../models/yolov8n-pose_int8.tflite \
@@ -102,3 +112,24 @@ python locate_objects.py \
   --image=../images/bus.jpg \
   --save_output=output.png
 ```
+
+<image src="doc_images/bus_pose.png" width="488px"/>
+
+You'll see that it shows a rough skeleton of each person it detects. To run it
+on a live camera, you can use this:
+
+```bash
+python locate_objects.py \
+  --model_file=../models/yolov8n-pose_int8.tflite \
+  --output_format=yolov8_pose \
+  --label_file=../models/yolov8-pose_labels.txt \
+  --camera=0 \
+  --save_output=output.png
+```
+
+Most of the extra complexity for this model comes from its use of keypoints to
+define the important parts of the skeletal model it displays. These need to be
+handled by the non-max suppression process which takes the raw output of the
+model (which consists of a lot of overlapping boxes and their keypoints) and
+merges them into a few clean boxes and poses. You can read more about this NMS
+process in [Non-Max Suppressions - How do they Work?](https://petewarden.com/2022/02/21/non-max-suppressions-how-do-they-work/).
