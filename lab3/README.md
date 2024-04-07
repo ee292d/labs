@@ -10,6 +10,7 @@ objects in images, optimize their latency, and train on custom classes.
  - [Run a Custom Model](#run-a-custom-model)
  - [Next Steps](#next-steps)
     - [Human Pose](#human-pose)
+    - [Performance Tradeoffs](#performance-tradeoffs)
     - [Reading Text](#reading-text)
 
 ## Train your Model
@@ -134,6 +135,17 @@ handled by the non-max suppression process which takes the raw output of the
 model (which consists of a lot of overlapping boxes and their keypoints) and
 merges them into a few clean boxes and poses. You can read more about this NMS
 process in [Non-Max Suppressions - How do they Work?](https://petewarden.com/2022/02/21/non-max-suppressions-how-do-they-work/).
+This is also why we have to supply the `--output_format=yolov8_pose`, so that
+the code can interpret the output of the model correctly.
+
+### Performance Tradeoffs
+
+So far we've been using the "nano" version of the Ultralytics' YOLOv8 models,
+because this is the smallest and fastest. You can also try the [other model sizes](https://docs.ultralytics.com/models/yolov8/#performance-metrics)
+which offer increased accuracy at the cost of slower latency. Another tradeoff
+you can look at is the input image size, set by the `imgsz` parameter when
+exporting. You can expand the image size to capture finer detail, but the model
+will take longer to deal with the larger image.
 
 ### Reading Text
 
