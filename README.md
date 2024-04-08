@@ -14,6 +14,7 @@ run these models on a Pi yourself, here are links to the lab instructions:
  * [Lab 1: Run a Large Language Model](https://github.com/ee292d/labs/blob/main/lab1/README.md)
  * [Lab 2: Classify Images](https://github.com/ee292d/labs/blob/main/lab2/README.md)
  * [Lab 3: Locate People and Objects](https://github.com/ee292d/labs/blob/main/lab3/README.md)
+ * [Lab 4: Understand Speech](https://github.com/ee292d/labs/blob/main/lab4/README.md)
 
 ## Fork Me!
 
