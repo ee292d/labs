@@ -1,4 +1,5 @@
 import argparse
+import time
 
 from faster_whisper import WhisperModel, available_models
 
@@ -9,7 +10,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(
       "--audio_file",
-      default="daisy_HAL_9000.mp3",
+      default="../audio/two_cities.wav",
       help="Input audio")
   parser.add_argument(
       "--model_size",
@@ -23,17 +24,25 @@ if __name__ == "__main__":
       "--beam_size",
       type=int,
       default=5,
-      help=f"How wide an array to use for the beam search")
+      help=f"How wide an array to use for the beam search (smaller is faster but less accurate)")
 
   args = parser.parse_args()
 
   model = WhisperModel(args.model_size, device="cpu",
                        compute_type=args.compute_type)
 
+  transcribe_start_time = time.time()
   segments, info = model.transcribe(args.audio_file, beam_size=args.beam_size)
+  transcribe_end_time = time.time()
+  transcribe_duration = transcribe_end_time - transcribe_start_time
+  print("Transcribe time: {:.3f}ms".format(transcribe_duration * 1000))
 
   print("Detected language '%s' with probability %f" %
         (info.language, info.language_probability))
 
+  segment_start_time = time.time()
   for segment in segments:
     print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
+  segment_end_time = time.time()
+  segment_duration = segment_end_time - segment_start_time
+  print("Segment time: {:.3f}ms".format(segment_duration * 1000))
