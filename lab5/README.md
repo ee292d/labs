@@ -9,3 +9,6 @@ cd ~/labs/lab5
 ./download_model.sh
 ```
 
+```bash
+pip install --break-system-packages ctranslate2 transformers torch
+```
