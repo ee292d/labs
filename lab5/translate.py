@@ -4,6 +4,8 @@ import sys
 import ctranslate2
 import transformers
 
+from flores import name_to_flores_200_code
+
 def translate(source, tgt_lang_code, tokenizer, translator):
     tokens = tokenizer.convert_ids_to_tokens(
         tokenizer.encode(source))
@@ -21,25 +23,21 @@ if __name__ == "__main__":
         default="../models/nllb/nllb-200-distilled-600M",
         help="Translation model")
     parser.add_argument(
-        "--source_language",
-        default="eng_Latn",
-        help="Language to translate to")
-    parser.add_argument(
         "--target_language",
-        default="spa_Latn",
+        default="English",
         help="Language to translate to")
 
     args = parser.parse_args()
 
-    print("a")
     tokenizer = transformers.AutoTokenizer.from_pretrained(args.model_file)
-    print("b")
     translator = ctranslate2.Translator(args.model_file)
 
-    print(f"Translating from {args.source_language} to {args.target_language}")
+    target_code = name_to_flores_200_code(args.target_language)
+
+    print(f"Translating to {args.target_language}")
     print("Enter text to be translated")
     
     for line in sys.stdin:
-        result = translate(line.strip(), args.target_language, tokenizer, translator)
+        result = translate(line.strip(), target_code, tokenizer, translator)
         result = result.replace('<unk>', '')
         print(result)
