@@ -1,3 +1,5 @@
+import pprint
+import sys
 
 FLORES_200_MAP = {
     "Acehnese (Arabic script)": "ace_Arab",
@@ -206,6 +208,10 @@ FLORES_200_MAP = {
     "Zulu": "zul_Latn",
 }
 
+def print_known_languages():
+    print(f"{len(FLORES_200_MAP.keys())} languages known:", file=sys.stderr)
+    pprint.pprint(FLORES_200_MAP, stream=sys.stderr)
+
 def name_to_flores_200_code(name):
     lower_name = name.lower()
     long_names = FLORES_200_MAP.keys()
@@ -229,10 +235,10 @@ def name_to_flores_200_code(name):
                 return FLORES_200_MAP[long_name]
 
     # Look for exact matches in the code.
-    for long_name, code in long_names.items():
+    for long_name, code in FLORES_200_MAP.items():
         if lower_name == code.lower():
             return FLORES_200_MAP[long_name]
 
-    print(FLORES_200_MAP)
-    print(f"Couldn't find FLORES 200 code for language {name}.")
+    print_known_languages()
+    print(f"Couldn't find FLORES 200 code for language '{name}'.", file=sys.stderr)
     return None

@@ -4,7 +4,7 @@ input.png
 /models/flower_model.tflite
 /models/yolov8n_int8.tflite
 /models/african_wildlife.tflite
-/models/nllb
+/models/nllb-200-distilled-600M-int8
 new_output.png
 orca-mini-3b/
 output.png

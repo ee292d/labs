@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-DEST_FOLDER="../models/nllb/"
+DEST_FOLDER="../models"
 mkdir -p $DEST_FOLDER
 cd $DEST_FOLDER
-wget https://storage.googleapis.com/download.usefulsensors.com/ai_in_a_box/nllb-200-distilled-600M.tar.gz
-tar -xf *.tar.gz
-rm *.tar.gz
+wget https://storage.googleapis.com/download.usefulsensors.com/models/nllb-200-distilled-600M-int8.zip
+unzip nllb-200-distilled-600M-int8.zip
+rm -rf nllb-200-distilled-600M-int8.zip
