@@ -72,7 +72,7 @@ python translate.py --source_language=chinese --target_language=english < ../tex
 ## Next Steps
 
 The NLLB model from Meta is only licensed for non-commercial use, but the recent [MADLAD model from Google](https://huggingface.co/docs/transformers/en/model_doc/madlad-400)
-offers similar functionality, and is also available [in quantized form](https://huggingface.co/Heng666/madlad400-3b-mt-ct2-int8). 
+offers similar functionality without those restrictions, and is also available [in quantized form](https://huggingface.co/Heng666/madlad400-3b-mt-ct2-int8). 
 It's a bit larger though, so it won't run as quickly.
 
 You could look at translating speech into text using the script from Lab 4, and
