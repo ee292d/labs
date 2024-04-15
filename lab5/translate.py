@@ -22,11 +22,11 @@ if __name__ == "__main__":
         help="Translation model")
     parser.add_argument(
         "--source_language",
-        default="en_US",
+        default="eng_Latn",
         help="Language to translate to")
     parser.add_argument(
         "--target_language",
-        default="es_ES",
+        default="spa_Latn",
         help="Language to translate to")
 
     args = parser.parse_args()
@@ -41,4 +41,5 @@ if __name__ == "__main__":
     
     for line in sys.stdin:
         result = translate(line.strip(), args.target_language, tokenizer, translator)
+        result = result.replace('<unk>', '')
         print(result)
