@@ -6,8 +6,8 @@ This lab will show you how to translate text from one language into another.
 
 We'll be using the [NLLB (No Language Left Behind) model from Meta](https://huggingface.co/facebook/nllb-200-distilled-600M)
 which is available under a Creative Commons CC-BY-NC-4.0. To get this model 
-you'll need to run the download script. It's over a gigabyte in size, so this
-may take some time.
+you'll need to run the download script. [It's over a gigabyte in size](https://forum.opennmt.net/t/nllb-200-with-ctranslate2/5090),
+so this may take some time.
 
 ```bash
 cd ~/labs/lab5
