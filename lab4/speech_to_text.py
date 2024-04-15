@@ -9,9 +9,6 @@ import sounddevice as sd
 # Input to the speech model.
 SAMPLE_RATE = 16000
 CHANNELS = 1
-AUDIO_BUFFER_DURATION_S = 30.0
-AUDIO_BUFFER_DURATION_MS = int(AUDIO_BUFFER_DURATION_S * 1000)
-AUDIO_BUFFER_SAMPLES = int(AUDIO_BUFFER_DURATION_S * SAMPLE_RATE)
 
 def run_model(model, audio_input, beam_size, vad_parameters=None, verbose=True):
     transcribe_start_time = time.time()
@@ -20,7 +17,7 @@ def run_model(model, audio_input, beam_size, vad_parameters=None, verbose=True):
     transcribe_duration = transcribe_end_time - transcribe_start_time
     
     if verbose:
-        print("Transcribe time: {:.3f}ms".format(transcribe_duration * 1000))
+        print("Transcribe time: {:.0f}ms".format(transcribe_duration * 1000))
         print("Detected language '%s' with probability %f" %
                 (info.language, info.language_probability))
 
@@ -34,7 +31,7 @@ def run_model(model, audio_input, beam_size, vad_parameters=None, verbose=True):
     segment_end_time = time.time()
     segment_duration = segment_end_time - segment_start_time
     if verbose:
-        print("Segment time: {:.3f}ms".format(segment_duration * 1000))
+        print("Segment time: {:.0f}ms".format(segment_duration * 1000))
     else:
         print(all_text)
         
@@ -73,9 +70,18 @@ if __name__ == "__main__":
         "--beam_size",
         type=int,
         default=5,
-        help=f"How wide an array to use for the beam search (smaller is faster but less accurate)")
+        help=f"How wide an array to use for the beam search. Smaller is faster but less accurate.")
+
+    parser.add_argument(
+        "--buffer_duration",
+        type=int,
+        default=30,
+        help=f"How long an audio buffer to retain for live transcription. Smaller is faster but less accurate.")
 
     args = parser.parse_args()
+
+    AUDIO_BUFFER_DURATION_MS = int(args.buffer_duration * 1000)
+    AUDIO_BUFFER_SAMPLES = int(args.buffer_duration * SAMPLE_RATE)
 
     model = WhisperModel(args.model_size, device="cpu",
                         compute_type=args.compute_type)
