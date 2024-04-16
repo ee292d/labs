@@ -2,6 +2,10 @@
 
 This lab will show you how to translate text from one language into another.
 
+ - [Installation](#installation)
+ - [Translating](#translating)
+ - [Next Steps](#next-steps)
+
 ## Installation
 
 We'll be using the [NLLB (No Language Left Behind) model from Meta](https://huggingface.co/facebook/nllb-200-distilled-600M)
