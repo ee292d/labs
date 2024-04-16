@@ -46,7 +46,7 @@ For Lab 2, you'll also need a camera and adaptor cable:
 ## Remote or Local Development?
 
 The easiest way to use a Raspberry Pi is to connect it to a full-size monitor, 
-keyboard, and mouse. This lets you run code editors directly on the desktop, 
+keyboard, and mouse. This lets you run a code editor directly on the desktop, 
 configure the Wifi with a GUI, and execute commands in a terminal.
 
 This does make the setup very hard to move around though, which isn't great 
