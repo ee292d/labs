@@ -26,7 +26,7 @@ Once you've copied the weights over, double check that you have `llama-cpp` inst
 pip install --break-system-packages llama-cpp-python==0.1.77
 ```
 
-Finally, you can run this the `lab6` directory of your Pi to chat with your fine-tuned model:
+Finally, you can run this in the `lab6` directory of your Pi to chat with your fine-tuned model:
 
 ``` bash
 python run_phi_chat.py
