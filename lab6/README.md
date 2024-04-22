@@ -8,7 +8,7 @@ This lab will show you how to efficiently fine-tune a large language model, then
 
 ## Fine-tuning and Preparing a Model
 
-Follow the instructions in `notebook.ipynb` to fine-tune a small base model on a chat dataset, then prepare the fine-tuned weights for deployment on your Raspberry Pi. You should open this notebook in Colab.
+Follow the instructions in `notebook.ipynb` to fine-tune a small base model on a chat dataset, then prepare the fine-tuned weights for deployment on your Raspberry Pi. You should [open this notebook in Colab](https://colab.research.google.com/github/ee292d/labs/blob/main/lab6/notebook.ipynb).
 
 ## Deploying
 
