@@ -16,6 +16,7 @@ run these models on a Pi yourself, here are links to the lab instructions:
  * [Lab 3: Locate People and Objects](https://github.com/ee292d/labs/blob/main/lab3/README.md)
  * [Lab 4: Understand Speech](https://github.com/ee292d/labs/blob/main/lab4/README.md)
  * [Lab 5: Translate Languages](https://github.com/ee292d/labs/blob/main/lab5/README.md)
+ * [Lab 6: Train a Large Language Model](https://github.com/ee292d/labs/blob/main/lab6/README.md)
 
 ## Fork Me!
 
