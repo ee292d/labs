@@ -8,7 +8,7 @@
 
 import llama_cpp
 
-MODEL_PATH = "phi-2-chat.gguf"
+MODEL_PATH = "../models/phi-2-chat.gguf"
 MODEL_CONTEXT = 2048
 MODEL_EPSILON = 1e-6
 MODEL_RFB = 10000

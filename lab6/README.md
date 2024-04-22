@@ -15,7 +15,7 @@ Follow the instructions in `notebook.ipynb` to fine-tune a small base model on a
 Once you've downloaded the prepared weights from your Colab instance, you'll need to transfer them to your Pi. If your development computer is a Linux/Unix machine, you can do this with `scp`, like so:
 
 ``` bash
-scp phi-2-chat.gguf your-username@192.168.0.1:~/labs/lab6/
+scp phi-2-chat.gguf your-username@192.168.0.1:~/labs/models
 ```
 
 where `your-username` is the username you chose when you set up your Pi, `192.168.0.1` is the IP address of the Pi on your local network, and `~/labs/lab6/` is the path to the directory containing the `run_phi_chat.py` file included with this lab.
