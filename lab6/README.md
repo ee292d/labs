@@ -28,11 +28,11 @@ where `your-username` is the username you chose when you set up your Pi,
 `~/labs/lab6/` is the path to the directory containing the `run_phi_chat.py`
 file included with this lab.
 
-Once you've copied the weights over, double check that you have `llama-cpp` 
-installed on the Pi (as in Lab 1):
+Once you've copied the weights over, you'll need to upgrade your version of
+llama-cpp to 0.2.63:
 
 ``` bash
-pip install --break-system-packages llama-cpp-python==0.1.77
+pip install --break-system-packages llama-cpp-python==0.2.63
 ```
 
 Finally, you can run this in the `lab6` directory of your Pi to chat with your
