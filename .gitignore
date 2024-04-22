@@ -6,7 +6,7 @@ input.png
 /models/african_wildlife.tflite
 /models/nllb-200-distilled-600M-int8
 new_output.png
-orca-mini-3b/
+q4_0-orca-mini-3b.gguf
 output.png
 phi-2-chat.gguf
 *.pyc

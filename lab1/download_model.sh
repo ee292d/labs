@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-DEST_FOLDER="orca-mini-3b/"
-mkdir -p $DEST_FOLDER
+DEST_FOLDER="../models/"
 cd $DEST_FOLDER
-curl -L -O https://storage.googleapis.com/download.usefulsensors.com/ai_in_a_box/orca-mini-3b.tar.gz
-tar -xf *.tar.gz
-echo "Archive extraction succeeded in ${DEST_FOLDER}."
-rm *.tar.gz
+curl -L -O https://storage.googleapis.com/download.usefulsensors.com/models/q4_0-orca-mini-3b.gguf

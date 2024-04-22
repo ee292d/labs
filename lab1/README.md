@@ -30,7 +30,7 @@ When the Pi has rebooted, run the command `ulimit -l` and make sure the result i
 We'll also need the llama-cpp Python package, which you can install like this:
 
 ```bash
-pip install --break-system-packages llama-cpp-python==0.1.77
+pip install --break-system-packages llama-cpp-python==0.2.63
 ```
 
 We need this particular version for the model file we'll be using.

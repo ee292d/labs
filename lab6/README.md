@@ -28,8 +28,8 @@ where `your-username` is the username you chose when you set up your Pi,
 `~/labs/lab6/` is the path to the directory containing the `run_phi_chat.py`
 file included with this lab.
 
-Once you've copied the weights over, you'll need to upgrade your version of
-llama-cpp to 0.2.63:
+Once you've copied the weights over, you'll need to make sure you have an
+up-to-date version of llama-cpp:
 
 ``` bash
 pip install --break-system-packages llama-cpp-python==0.2.63

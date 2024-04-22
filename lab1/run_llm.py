@@ -6,7 +6,7 @@
 
 import llama_cpp
 
-MODEL_PATH = "orca-mini-3b/orca-mini-3b.ggmlv3.q4_0.bin"
+MODEL_PATH = "../models/q4_0-orca-mini-3b.gguf"
 MODEL_CONTEXT = 2048
 MODEL_EPSILON = 1e-6
 MODEL_RFB = 10000
