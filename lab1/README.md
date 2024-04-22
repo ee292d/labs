@@ -33,7 +33,7 @@ We'll also need the llama-cpp Python package, which you can install like this:
 pip install --break-system-packages llama-cpp-python==0.2.63
 ```
 
-We need this particular version for the model file we'll be using.
+We need this particular version for [the model file we'll be using](https://huggingface.co/Aryanne/Orca-Mini-3B-gguf/tree/main).
 
 ## Model Downloading
 
@@ -85,7 +85,7 @@ environment.
 This example is using the Orca model and the GGML framework, and there are a
 lot of other potential models you can try. Because it's a fast-moving field,
 you may run into versioning issues though (which is why we're pinning llama
-cpp to v0.1.77, since we know that works with our particular model file).
+cpp to v0.2.63, since we know that works with our particular model file).
 
 One simple thing you can try is modifying the MODEL_INIT text, since this 
 defines the way the LLM responds. This is the default:
