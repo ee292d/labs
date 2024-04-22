@@ -1,4 +1,4 @@
-# Labs for EE292D Edge ML
+# Practical AI for the Raspberry Pi
 
 [EE292D Edge ML](https://ee292d.github.io/) is a ten week Stanford class 
 focused on running machine learning on edge devices. We're using Raspberry Pi 5
