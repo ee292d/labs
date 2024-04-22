@@ -4,6 +4,7 @@ This tutorial shows how to set up your laptop and Raspberry Pi 5 board to run
 machine learning labs in EE292D.
 
  * [Hardware](#hardware)
+ * [Remote or Local Development?](#remote-or-local-development)
  * [Flash an SD Card](#flash-an-sd-card)
  * [Install VS Code](#install-vs-code)
  * [Remote login through SSH](#remote-login-through-ssh)
@@ -41,6 +42,25 @@ For Lab 2, you'll also need a camera and adaptor cable:
 
  - [Raspberry Pi Camera Module v2](https://www.raspberrypi.com/products/camera-module-v2/)
  - [Raspberry Pi Mini to Standard Camera Cable](https://www.raspberrypi.com/products/camera-cable/)
+
+## Remote or Local Development?
+
+The easiest way to use a Raspberry Pi is to connect it to a full-size monitor, 
+keyboard, and mouse. This lets you run a code editor directly on the desktop, 
+configure the Wifi with a GUI, and execute commands in a terminal.
+
+This does make the setup very hard to move around though, which isn't great 
+when you need to bring it to class or deploy it in a production environment.
+Real applications are also likely to be easier to debug if you can log in 
+remotely without needing physical access to the device.
+
+You can work through all of these labs using local access, the steps will be
+be very similar, especially since VS Code can run on the Raspberry Pi desktop,
+but I do recommend at least considering investing time setting up remote 
+access. The rest of this lab walks you through the steps required to log into 
+your Pi from a laptop. Because some of it depends on the details of your own
+Wifi network it can be a bit frustrating, but once you have it working it 
+should save you time in the end.
 
 ## Flash an SD Card
 
@@ -126,24 +146,59 @@ since that provides the Linux commands that you'll need below for network
 debugging. If you're experienced with SSH and are confident that your board is
 on the network, you can skip this section and jump to [Remote Login with VS Code](#remote-login-with-vs-code).
 
+### Find the IP Address
+
 To make sure you can connect, type the following in the terminal, with the
-name you gave to your Pi replacing 'petes-pi5', and the username you picked
-instead of `petewarden` in the command:
+name you gave to your Pi replacing 'petes-pi5':
 
 ```bash
-ssh petewarden@petes-pi5.local
+ping pete-wardens-pi5.local
+```
+
+You should see output like this if the board is found:
+
+```bash
+PING petes-pi5.local (192.168.86.29): 56 data bytes
+64 bytes from 192.168.86.29: icmp_seq=0 ttl=64 time=16.664 ms
+64 bytes from 192.168.86.29: icmp_seq=1 ttl=64 time=29.753 ms
+```
+
+The IP address is made up of the four numbers separated by periods after the
+name of the device on the first line. If it isn't found, the `ping` command
+will either hang or return an error like this:
+
+```bash
+ping: cannot resolve pete-wardens-pi5.local: Unknown host
+```
+
+If you've not been able to find your board's IP address, then you will need to
+work through the [network troubleshooting section](#troubleshooting-login-issues).
+
+If you did find the IP address, then you should be able to SSH into your board
+with this command, replacing the address with your Pi's, and the username you 
+picked instead of `petewarden` in the command:
+
+```bash
+ssh petewarden@192.168.86.29
 ```
 
 You should see a message like:
 
 ```bash
-The authenticity of host 'petes-pi5.local (192.168.86.29)' can't be established.
+The authenticity of host '192.168.86.29' can't be established.
 ```
 
 This is normal for the first time you try to connect to a new host with SSH,
 and you should reply 'yes' to the prompt.
 
 If you chose to use a password, you should enter it when prompted, otherwise if you picked `ssh-keygen` during the SD card flashing, you'll be logged in automatically.
+
+If you see an error message saying "Connection refused" that means there is a
+device at that IP address, but the SSH server isn't listening for connections.
+This can have a lot of different causes, but one of the most common is
+forgetting to enable SSH when you flash the SD card. If you have a monitor and
+keyboard attached to your Pi you can [use the raspi-config tool to start SSH](https://phoenixnap.com/kb/enable-ssh-raspberry-pi)
+or you could reflash the card with the option enabled.
 
 If all this is successful, you should see logs and a prompt, like this:
 
@@ -160,6 +215,11 @@ Last login: Sun Mar 24 12:21:33 2024 from 192.168.86.28
 petewarden@petes-pi5:~ $ 
 ```
 
+If you've made it this far, congratulations, you can now remotely access your
+Pi. One thing to watch out for is that your IP address can change when you 
+reboot or move to a different Wifi network, so you may have to repeat the steps
+to find the new one in those situations.
+
 ## Troubleshooting Login Issues
 
 Logging in remotely is one of the steps that's most likely to cause problems,
@@ -169,7 +229,7 @@ team have put together [a great guide](https://www.raspberrypi.com/documentation
 to figuring out what's going wrong, but  here are some techniques that can help
 fix common errors.
 
-### Finding the Address of the Board
+### Find the Board's Address
 
 If you've plugged in your board, have seen the green LED light up, and have 
 waited five minutes, but the `ssh` command either hangs or reports an error,
@@ -208,14 +268,18 @@ numerical address of your laptop. If you're on MacOS or Linux, here's a command
 that should give you what you need:
 
 ```bash
-ifconfig | grep 192.168
+ifconfig
 ```
 
-This should give something like this as its result:
+This should give something like this in the results:
 
 ```bash
         inet 192.168.86.28 netmask 0xffffff00 broadcast 192.168.86.255
 ```
+
+It's hard to say exactly where this will show up because it depends on your
+laptop's network configuration, but look out for an IP address that isn't a
+long IPv6 or the localhost at 127.0.0.0.
 
 As a next step, we're going to use the `nmap` network mapping tool to find all
 the devices on the same network that have an open port ready to receive SSH
@@ -260,13 +324,14 @@ you can open up the terminal on the board and enter the following command to
 get the Pi's IP address:
 
 ```bash
-ifconfig | grep 192.168
+hostname -l
 ```
 
 If this doesn't work, try to load a website in the Chromium browser on the Pi
 to make sure it's actually connected. If it isn't, try using the Wifi
 connection tool in the top right of the menu bar to re-enter your network
-details.
+details. You can open the connection information menu entry and you should see
+the IP address there.
 
 ## Remote Login with VS Code
 
@@ -286,8 +351,8 @@ right.
 
 Click on that, and type in the same address and username that you used 
 to ssh into the Pi earlier. For example, if you were able to ssh in using the
-command `ssh petewarden@petes-pi5.local`, you would enter 
-`petewarden@petes-pi5.local` into the text field. 
+command `ssh petewarden@192.168.86.29`, you would enter that whole command into
+the text field. 
 
 <image src="doc_images/vscode6.png" width="400px"/>
 
@@ -305,7 +370,7 @@ You should now see a new window appear. If you're using a password, you'll see
 a prompt to enter your password at the top. Once you're logged in there should
 be a few progress messages such as "Downloading VS Code Server". After they
 complete, you should see a small connection message in the bottom left of the
-window that says `SSH: petes-pi5.local`, but with your machine's name.
+window that says `SSH: 192.168.86.29`, but with your machine's IP address.
 
 <image src="doc_images/vscode10.png" width="400px"/>
 
