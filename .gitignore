@@ -8,4 +8,5 @@ input.png
 new_output.png
 orca-mini-3b/
 output.png
+phi-2-chat.gguf
 *.pyc
