@@ -1,5 +1,56 @@
 # Understand Your Data
 
+This lab will show you how to find and understand the datasets you'll need to
+train your own models.
+
+Improving the size and quality of your training data is the easiest way to make
+any ML application better, but that can be tough to do in practice. This lab
+will be a bit different from the previous workshops, with less coding and more
+exploration of the options, since exactly what you'll need to do for your 
+project will depend a lot on what your application needs.
+
+## Sourcing Data
+
+The best source of training data for your application is the platform that 
+you'll be deploying on. This is because you can minimize "skew" between the 
+kind of samples that you'll be running on at the end, and the sort of data that
+the model sees during training. Skew is any difference in the distribution of
+characteristics between sets of samples. One common way this shows up in 
+computer vision is with field-of-view, since training images are often captured
+using cameras optimized for photography, but robots and similar devices often
+use fisheye lens to see more of their surroundings. Since models haven't seen
+images with this kind of distortion during training, they perform poorly
+compared to what you'd expect from the training evaluation metrics. Other 
+frequent sources of image skew include framing (people take photos with objects
+centered, but autonomous cameras will often crop subjects), light response,
+environmental conditions like dust, steam, or smoke, resolution, and lighting.
+
+Text samples can be skewed by punctuation, formality, case differences, 
+dialects, slang, and many other differences. Audio can be affected by 
+compression algorithms, background noise, accents, microphones, post
+processing, and room acoustics.
+
+All of these variables mean that the best data you can get are samples that
+you've gathered using the same hardware you'll be deploying on, in the same
+environments your device will exist in. The problem is that the deep learning
+techniques we're using require large datasets to be effective, and collecting
+the tens or hundreds of thousands of samples required from a real device will
+probably cost too much or take too long to be realistic. We've discussed ways
+of training faster, using less data, like LoRA or transfer learning, but even
+these benefit from increasing the amount of data. In practice you're likely to
+need to supplement data you gather and label yourself with external datasets.
+
+### Crawling the Web
+
+One of the most common approaches to gathering more data for training is to
+fetch examples from public websites. 
+
+
+## Finding Datasets
+
+
+
+
 Data Curation by Poking Around
 
 Finding Problematic Samples
