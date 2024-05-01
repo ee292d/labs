@@ -37,3 +37,55 @@ https://arxiv.org/abs/2403.16887
 | potent | undoubtedly | after |
 | fresh | scholarly | earlier | 
 | ingenious | strategically | later |
+
+"As an AI language model"
+
+## PII
+
+https://github.com/Poogles/piiregex
+
+## Adult Content
+
+https://github.com/LAION-AI/CLIP-based-NSFW-Detector
+
+## Right to Use
+
+Respect robots.txt.
+Always supply a user agent when crawling, containing an email contact.
+
+## Data Sources
+
+Google Open Images
+
+https://github.com/cvdfoundation/open-images-dataset#download-full-dataset-with-google-storage-transfer
+
+LAION
+
+https://laion.ai/blog/laion-400-open-dataset/
+
+Only URLs.
+
+https://knowingmachines.org/models-all-the-way
+
+ImageNet 1k
+
+https://image-net.org/download
+
+Research-only license.
+
+Common Crawl
+
+https://commoncrawl.org/get-started
+
+MADLAD 400
+
+https://huggingface.co/datasets/allenai/MADLAD-400
+
+Mozilla Common Voice
+
+https://huggingface.co/datasets/mozilla-foundation/common_voice_17_0
+
+LibriSpeech
+
+https://www.openslr.org/12
+
