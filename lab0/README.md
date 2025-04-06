@@ -1,47 +1,67 @@
 # Lab 0: Set Up Your Raspberry Pi
 
 This tutorial shows how to set up your laptop and Raspberry Pi 5 board to run
-machine learning labs in EE292D.
+the rest of the machine learning labs in EE292D.
 
- * [Hardware](#hardware)
- * [Remote or Local Development?](#remote-or-local-development)
- * [Flash an SD Card](#flash-an-sd-card)
- * [Install VS Code](#install-vs-code)
- * [Remote login through SSH](#remote-login-through-ssh)
- * [Troubleshooting Login Issues](#troubleshooting-login-issues)
- * [Finding the Address of the Board](#finding-the-address-of-the-board)
- * [Remote Login with VS Code](#remote-login-with-vs-code)
- * [Connecting the Display and Keyboard](#connecting-the-display-and-keyboard)
- * [Cases and Cooling](#cases-and-cooling)
- * [Next Steps](#next-steps)
+  - [Hardware Required](#hardware-required)
+    - [Links to Buy](#links-to-buy)
+    - [Other equipment](#other-equipment)
+  - [Remote or Local Development?](#remote-or-local-development)
+  - [Flash an SD Card](#flash-an-sd-card)
+    - [Image](#image)
+    - [Configure settings](#configure-settings)
+    - [Check that the Pi boots](#check-that-the-pi-boots)
+  - [Connect the Touch Display](#connect-the-touch-display)
+    - [Connect the power wires](#connect-the-power-wires)
+    - [Connect the data wires](#connect-the-data-wires)
+    - [Mechanically attach the Pi to the display (optional)](#mechanically-attach-the-pi-to-the-display-optional)
+    - [Power up the display](#power-up-the-display)
+    - [Find your IP address](#find-your-ip-address)
+  - [Install VS Code](#install-vs-code)
+    - [Set up the Remote SSH extension](#set-up-the-remote-ssh-extension)
+    - [Add your Pi as a host](#add-your-pi-as-a-host)
+    - [Connect to to the Pi](#connect-to-to-the-pi)
+    - [Troubleshoot connection issues](#troubleshoot-connection-issues)
+    - [Download the code](#download-the-code)
+  - [Next Steps](#next-steps)
 
-## Hardware
+## Hardware Required
 
 You'll need the following pieces of equipment to complete this guide:
 
  - Raspberry Pi 5 8GB.
+ - Raspberry Pi 27W USB-C Power Supply
+ - Raspberry Pi Touchscreen 2
  - Blank Micro SD Card.
  - Micro SD Card Reader.
  - Laptop.
- - USB Keyboard and Mouse.
- - Micro HDMI to HDMI cable or adaptor.
- - HDMI Display.
 
-The keyboard, mouse, and display are optional but recommended. If you're a
-Stanford student on the course you will be provided with the equipment you
-need, but for anyone else following along, here are links to the hardware we
-purchased. You don't need these exact products, but I do find the starter packs
-helpful since they usually include things like a power supply, HDMI adaptors,
-and SD cards that can otherwise be confusing to find compatible versions of.
+If you're a Stanford student on the course you will be provided with the 
+equipment you need, but for anyone else following along, here are links to the
+hardware I purchased. These are US resellers, but as long as you make sure 
+you're buying the same hardware, versions bought from elsewhere should work
+with no differences.
 
- - [Vilros Raspberry Pi 5 (8GB) Complete Starter Kit](https://www.amazon.com/dp/B0CTTJLV1B).
- - [Reiie H9+ Mini Keyboard and Touchpad](https://www.amazon.com/dp/B06X9J8NG4).
- - [Loncevon 7 Inch Mini Monitor](https://www.amazon.com/dp/B06XQJVXHL).
+### Links to Buy
 
-For Lab 2, you'll also need a camera and adaptor cable:
+ - [Raspberry Pi 5 8GB at Adafruit](https://www.adafruit.com/product/5813)
+ - [Official Raspberry Pi 27 Watt Power Supply](https://www.adafruit.com/product/5814). The Pi will still boot with the older 15 Watt power supply, but it may not be able to run all peripherals.
+ - [Raspberry Pi Touch Display 2](https://www.adafruit.com/product/6079). Version 1 of the official touch display can be used in a pinch, but the connectors are a bit harder to set up.
+ - [256 GB SanDisk MicroSD Card](https://www.amazon.com/dp/B082WNC4NK). I prefer name brands for reliability, and since we're doing a lot with data in this course, having at least 256GB is recommended.
+  - [USB C SD Card Reader](https://www.amazon.com/dp/B09T5K56ZZ). If your laptop already has a built-in SD card reader, you won't need this.
+  - Laptop. No links for this, since the tutorials should work with Windows, Mac, or Linux machines. I haven't tested with ChromeOS, and it's pretty locked-down by default, so I wouldn't go that route unless you're knowledgeable about ChromeBook modifications.
+
+### Other equipment
+
+If you want to screw the Pi to the touch display, you'll need a Phillips 
+screwdriver with a very small head.
+
+For [Lab 2](https://github.com/ee292d/labs/blob/main/lab2/README.md), you'll also need a camera and adaptor cable:
 
  - [Raspberry Pi Camera Module v2](https://www.raspberrypi.com/products/camera-module-v2/)
  - [Raspberry Pi Mini to Standard Camera Cable](https://www.raspberrypi.com/products/camera-cable/)
+
+For [Lab 4](https://github.com/ee292d/labs/blob/main/lab4/README.md) you'll need a USB microphone and speakers or headphones.
 
 ## Remote or Local Development?
 
@@ -58,9 +78,9 @@ You can work through all of these labs using local access, the steps will be
 be very similar, especially since VS Code can run on the Raspberry Pi desktop,
 but I do recommend at least considering investing time setting up remote 
 access. The rest of this lab walks you through the steps required to log into 
-your Pi from a laptop. Because some of it depends on the details of your own
-Wifi network it can be a bit frustrating, but once you have it working it 
-should save you time in the end.
+your Pi from a laptop. Some of it depends on the details of your own Wifi 
+network so it can be a bit frustrating, but once you have it working it should
+save you time in the end.
 
 ## Flash an SD Card
 
@@ -69,6 +89,8 @@ operating system. The first step to setting up your new board is to burn a new
 card with an OS. I recommend picking a card with at least 32GB of space, and
 preferably more if possible, since this is also where you'll put your working
 files during development.
+
+### Image
 
 On your laptop, download the Raspberry Pi Imager tool for your operating system
 from [raspberrypi.com/software/](https://www.raspberrypi.com/software/).
@@ -89,10 +111,12 @@ Select "Raspberry Pi 5", "Raspberry Pi OS (64-bit)", and the reader device.
 
 Press "Write" and choose "Edit Settings" on the dialog that appears.
 
+### Configure settings
+
 <image src="doc_images/imager4.png" width="400px"/>
 
 On the default settings tab, choose a network name for your board (like 
-*your name*-pi5, petes-pi5 in my case) and make a note of it, since it will be
+*your name*-pi5, petes-pi5 in my case) and make a note of it, since it may be
 helpful for connecting later. If you're doing this in a classroom with other 
 people, you'll want to make sure the name is unique to your board, so you might
 need to add your last name if someone else shares your first name, for example
@@ -103,7 +127,9 @@ pete-wardens-pi5.
 Enter your preferred user name and password, and make a note of these too.
 
 Enter the name and password of your Wifi network (or prefill it from the 
-keychain).
+keychain). If you are using a network like Stanford's that requires 
+completing a browser-based login page, you can leave out this Wifi 
+information, since we'll use the touchscreen to connect after booting.
 
 <image src="doc_images/imager6.png" width="400px"/>
 
@@ -123,11 +149,179 @@ reader and insert it into the Raspberry Pi. Make sure the SD card is inserted
 so that its metal contacts are facing towards the board. The SD slot is on the
 underside of the board.
 
+<image src="doc_images/sdcard_inserted.jpg" width="400px"/>
+
+### Check that the Pi boots
+
 Plug the power supply into the wall, and then into the USB C plug on the 
 Raspberry Pi. You should see a green LED near the USB C plug light up if it's
 receiving power.
 
 <image src="doc_images/power_led.jpg" width="400px"/>
+
+If the LED doesn't come on at all, then you should check that your power supply
+is plugged in, and then test it with another USB C device, like your phone, to
+ensure it is actually supplying power.
+
+If it settles into a steady blinking pattern that continues for a couple of
+minutes, then the board is in an error state. Double check that the SD card is
+firmly in the socket. If that doesn't fix it, then you can look at [this guide](https://forums.raspberrypi.com/viewtopic.php?t=58151#p1485558)
+to the errors associated with each pattern, and other steps to help you
+troubleshoot booting problems.
+
+## Connect the Touch Display
+
+Even if you have a Wifi network that doesn't require a browser-based login
+process, having a touchscreen display attached makes debugging issues a lot
+easier. The most important piece of information we'll need to set up remote
+development is the IP address of the Pi on the local Wifi network. While
+there are other ways to obtain it, the simplest is to make a note of it when
+it's displayed as a notification on the desktop after booting the board.
+
+Here's my step-by-step recipe, and the official docs have [a good guide on setting up the Touchscreen 2](https://www.raspberrypi.com/documentation/accessories/touch-display-2.html)
+too.
+
+Before you start, make sure the Pi is disconnected from its power supply. The
+voltage should be too low to cause you any harm, but there's a chance something
+could short-circuit and damage your board if you connect pins while the board
+is running. Also touch something metal, like your laptop, to discharge any
+static electricity.
+
+### Connect the power wires
+
+Unpack the touchcreen and you should find a red and a black wire that
+joins two white plastic connectors.
+
+<image src="doc_images/i2c_full_cable.jpg" width="400px"/>
+
+This supplies power to the touchscreen from the Pi. First make sure that you
+turn the smaller connector so that the metal contacts are facing towards you,
+and away from the touchscreen.
+
+<image src="doc_images/i2c_ts_end.jpg" width="400px"/>
+
+Then insert the smaller connector into the pins on the back of the touchscreen,
+that face one of the long sides of the display. The connector will only fit in
+one orientation, so make sure that you do have the metal contacts facing away
+from the touchscreen and towards you. You shouldn't need too much force to 
+insert the connector, and once in it should feel snug, not loose.
+
+<image src="doc_images/i2c_ts_inserted.jpg" width="400px"/>
+
+Take the connector on the other end, and attach it to the long row of pins on
+the Pi. The red wire should connect to the pin nearest the corner of the board,
+on the outermost row, and the black wire should connect to the pin that's two
+down, also on the outermost row. The small plastic ledge on the connector
+should be turned away from the board. This connection should also require 
+little force to insert, and feel snug and well-seated.
+
+<image src="doc_images/i2c_pi_inserted.jpg" width="400px"/>
+
+### Connect the data wires
+
+So far we've supplied power to the display, but we also need it to receive
+video input from the Pi, and any send touch information back in return. There's
+a special cable included with the Touch Display for this, it's flat and orange,
+with a swerve in the middle.
+
+<image src="doc_images/ribbon_full_cable.jpg" width="400px"/>
+
+The wider end goes into the touch screen. You will need to use your fingernails
+to loosen the black plastic tab in the ribbon connector on the display first.
+You only need to pull it out a small amount, so that it's loose but still in 
+the socket. If you accidentally pull it completely out, don't worry, you can
+always reinsert it.
+
+Slide the wide end of the ribbon cable into the slot, with the gold contacts
+facing you, away from the display. Once it's fully in, push the black tab back
+into the socket. This should lock the cable in place, so it stays in place if
+you give it a gentle tug. Pushing the tab back in can be very fiddly, and I
+often feel like I need three hands to do it. You should hold the ribbon in
+place while you simultaneously press down on both sides of the tab, I use my
+thumbnails for this.
+
+One of the most common reasons for the touch display to not work is a 
+misalignment in the ribbon cable connectors on either end, so make sure that
+the ribbon is well inserted, and perpendicular to the connector.
+
+<image src="doc_images/ribbon_ts_inserted.jpg" width="400px"/>
+
+Now we'll insert the narrower end of the ribbon cable into one of the Pi's
+display ports. The Raspberry Pi 5 has two of these, and both should work, but
+I tend to use the one nearest the Ethernet port on the board. They're white,
+with black plastic tabs like the touch screen's ribbon port. As before, gently
+pull the black tab out of your chosen display port. Once its loose, you should
+be able to insert the ribbon cable, with the gold contacts facing towards the
+USB and Ethernet port end of the board. When it's firmly and squarely in, 
+wiggle the tab back into place so that the ribbon is locked. As before, take
+extra care with this step, and check that it truly is square if you are having
+problems getting the display to work.
+
+<image src="doc_images/ribbon_pi_inserted.jpg" width="400px"/>
+
+### Mechanically attach the Pi to the display (optional)
+
+The Pi has four screwholes, one in each corner of the board, and the Touch
+Display has four pillars that you can use to attach the Pi to the screen. This
+is purely optional, it makes the board a little more awkward to handle, but I
+do find that it helps me to avoid accidentally tugging out the cables. You
+should have found some small black screws in the display packaging. You can use
+these to attach the board.
+
+<image src="doc_images/black_screws.jpg" width="400px"/>
+
+I don't recommend attaching the board before you have connected the power and
+data cables, since it can be tricky to access those ports on the display once 
+the Pi is in place.
+
+The easiest way I've found to start is by inserting a screw into one corner
+of the board, pushing a small Phillips screwdriver into the screw's head to 
+help hold it in place, and then moving the board and screwdriver together until
+you can insert the screw into one of the pillars. Once you have one pillar
+attached, it should be possible to rotate the board around it until the other
+holes are in the right position, then place each screw on the end of your 
+screwdriver and hold it in place as you transfer it to a hole.
+
+### Power up the display
+
+when you have all the cables in place you should reinsert the USB C power
+supply. If everything is working correctly you should see a screen that says
+"Welcome to the Raspberry Pi Desktop" appear after a few seconds.
+
+<image src="doc_images/boot.jpg" width="400px"/>
+
+If you have set your username, Wifi, and other details through the customize
+settings dialog when you flashed your SD card, it will then boot directly into
+the desktop. If not, you'll be guided through a step-by-step process to enter
+all the required information when you first boot.
+
+If you are on a Wifi network that requires a login page, you should be able to
+trigger this by picking the network from the Wifi icon at the right of the top
+menu bar that extends across the screen, and then opening your browser (the 
+globe symbol on the left of the menu bar) and navigating to a page like 
+google.com.
+
+### Find your IP address
+
+When you're connected to a Wifi network and boot up your board, the numerical 
+IP address of your Pi will appear for a few seconds as a notification just 
+below the Wifi icon in the menu bar. You'll need this information for remote
+development.
+
+<image src="doc_images/ip_notification.jpg" width="400px"/>
+
+Don't worry if you don't write the IP address down before the notification
+disappears, you can find it from the Wifi settings at any time. Tap on the
+Wifi icon in the menu bar, choose "Advanced Options" at the bottom of that
+menu, and then choose "Connection Information" in the submenu.
+
+<image src="doc_images/connection_menu.jpg" width="400px"/>
+
+That should bring up a window that includes a lot of information about your
+network connection. The address you want is the IP Address below IPv4. In
+this screenshot, that's 192.168.4.54.
+
+<image src="doc_images/ip_connection_info.jpg" width="400px"/>
 
 ## Install VS Code
 
@@ -135,213 +329,20 @@ Go to [code.visualstudio.com/download](https://code.visualstudio.com/download)
 and download the installer for your laptop's operating system. Follow the
 instructions to install the application, and then open a new window.
 
-## Remote login through SSH
+Make sure the board is powered on and shows the desktop on the touch display,
+and then with your laptop connected to the same Wifi network the Pi is
+connected to, and then open VS Code.
 
-Give the board a few minutes to boot, and then with your laptop connected to
-the same Wifi network you entered into the Imager for the SD card, open a
-terminal window in VS Code. You can do this by going to the main menu and
-choosing "Terminal->New Terminal". If you're on Windows, I recommend installing
-the [WSL Extension](https://code.visualstudio.com/docs/remote/wsl) for VS Code
-since that provides the Linux commands that you'll need below for network
-debugging. If you're experienced with SSH and are confident that your board is
-on the network, you can skip this section and jump to [Remote Login with VS Code](#remote-login-with-vs-code).
+### Set up the Remote SSH extension 
 
-### Find the IP Address
-
-To make sure you can connect, type the following in the terminal, with the
-name you gave to your Pi replacing 'petes-pi5':
-
-```bash
-ping pete-wardens-pi5.local
-```
-
-You should see output like this if the board is found:
-
-```bash
-PING petes-pi5.local (192.168.86.29): 56 data bytes
-64 bytes from 192.168.86.29: icmp_seq=0 ttl=64 time=16.664 ms
-64 bytes from 192.168.86.29: icmp_seq=1 ttl=64 time=29.753 ms
-```
-
-The IP address is made up of the four numbers separated by periods after the
-name of the device on the first line. If it isn't found, the `ping` command
-will either hang or return an error like this:
-
-```bash
-ping: cannot resolve pete-wardens-pi5.local: Unknown host
-```
-
-If you've not been able to find your board's IP address, then you will need to
-work through the [network troubleshooting section](#troubleshooting-login-issues).
-
-If you did find the IP address, then you should be able to SSH into your board
-with this command, replacing the address with your Pi's, and the username you 
-picked instead of `petewarden` in the command:
-
-```bash
-ssh petewarden@192.168.86.29
-```
-
-You should see a message like:
-
-```bash
-The authenticity of host '192.168.86.29' can't be established.
-```
-
-This is normal for the first time you try to connect to a new host with SSH,
-and you should reply 'yes' to the prompt.
-
-If you chose to use a password, you should enter it when prompted, otherwise if you picked `ssh-keygen` during the SD card flashing, you'll be logged in automatically.
-
-If you see an error message saying "Connection refused" that means there is a
-device at that IP address, but the SSH server isn't listening for connections.
-This can have a lot of different causes, but one of the most common is
-forgetting to enable SSH when you flash the SD card. If you have a monitor and
-keyboard attached to your Pi you can [use the raspi-config tool to start SSH](https://phoenixnap.com/kb/enable-ssh-raspberry-pi)
-or you could reflash the card with the option enabled.
-
-If all this is successful, you should see logs and a prompt, like this:
-
-```bash
-Linux petes-pi5 6.6.20+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.6.20-1+rpt1 (2024-03-07) aarch64
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Sun Mar 24 12:21:33 2024 from 192.168.86.28
-petewarden@petes-pi5:~ $ 
-```
-
-If you've made it this far, congratulations, you can now remotely access your
-Pi. One thing to watch out for is that your IP address can change when you 
-reboot or move to a different Wifi network, so you may have to repeat the steps
-to find the new one in those situations.
-
-## Troubleshooting Login Issues
-
-Logging in remotely is one of the steps that's most likely to cause problems,
-because there are so many variables that affect the process, from your laptop's
-operating system, to the Wifi equipment, to the board itself. The Raspberry Pi
-team have put together [a great guide](https://www.raspberrypi.com/documentation/computers/remote-access.html#ip-address)
-to figuring out what's going wrong, but  here are some techniques that can help
-fix common errors.
-
-### Find the Board's Address
-
-If you've plugged in your board, have seen the green LED light up, and have 
-waited five minutes, but the `ssh` command either hangs or reports an error,
-your laptop may be having trouble finding the board on the Wifi network.
-
-To get a better understanding of what's happening, try the following command,
-with `petes-pi5` replaced by the name you gave your board.
-
-```bash
-ping petes-pi5.local
-```
-
-If the board is at that network address you should see a stream of messages
-like these:
-
-```bash
-PING petes-pi5.local (192.168.86.29): 56 data bytes
-64 bytes from 192.168.86.29: icmp_seq=0 ttl=64 time=16.664 ms
-64 bytes from 192.168.86.29: icmp_seq=1 ttl=64 time=29.753 ms
-```
-
-If this works then the network address isn't the issue, there must be a problem
-with the ssh password or certificate.
-
-If you see this message however, it means the board isn't at the address you
-used:
-
-```bash
-ping: cannot resolve petes-pi5.local: Unknown host
-```
-
-If you do see this, and you have double-checked that you got the name of your
-board correct and you're on the right Wifi network, you can try finding its
-numerical IP address instead. To do this you first need to find the local
-numerical address of your laptop. If you're on MacOS or Linux, here's a command
-that should give you what you need:
-
-```bash
-ifconfig
-```
-
-This should give something like this in the results:
-
-```bash
-        inet 192.168.86.28 netmask 0xffffff00 broadcast 192.168.86.255
-```
-
-It's hard to say exactly where this will show up because it depends on your
-laptop's network configuration, but look out for an IP address that isn't a
-long IPv6 or the localhost at 127.0.0.0.
-
-As a next step, we're going to use the `nmap` network mapping tool to find all
-the devices on the same network that have an open port ready to receive SSH
-commands. The port number for ssh is 22, so you run the scan like this 
-(replacing `192.168.86` with the first three numbers you found in your laptop's
-IP address).
-
-```bash
-nmap -p 22 --open 192.168.86.0/24
-```
-
-This searches through all the numerical addresses on your local network, 
-looking for any with open SSH ports. If the board is on the network, you should
-see something like this as the output:
-
-```bash
-Starting Nmap 7.94 ( https://nmap.org ) at 2024-03-24 12:52 PDT
-Nmap scan report for petes-pi5.lan (192.168.86.29)
-Host is up (0.015s latency).
-
-PORT   STATE SERVICE
-22/tcp open  ssh
-
-Nmap done: 256 IP addresses (9 hosts up) scanned in 18.11 seconds
-```
-
-There might be more than one address in the logs, and it might not report the
-name of the device. You can try substituting any numerical IP addresses you've found into the ssh command, like this:
-
-```bash
-ssh petewarden@192.168.86.29
-```
-
-If any of them allow you to log in, then it's likely you've found the right
-address, and you should note it down to use instead of the text address in
-future commands.
-
-If you're still unable to connect, you can troubleshoot some more once you
-attach a monitor and keyboard. You won't be able to do remote login through
-VS Code until you have ssh working successfully, but if you do have a display
-you can open up the terminal on the board and enter the following command to 
-get the Pi's IP address:
-
-```bash
-hostname -l
-```
-
-If this doesn't work, try to load a website in the Chromium browser on the Pi
-to make sure it's actually connected. If it isn't, try using the Wifi
-connection tool in the top right of the menu bar to re-enter your network
-details. You can open the connection information menu entry and you should see
-the IP address there.
-
-## Remote Login with VS Code
-
-Once you have the ssh command working, you can set up the Remote SSH extension
-in VS Code to easily edit files and run commands on the Pi from your laptop. To
-set this up, open a new VS Code window and click on the Extensions icon in the
-left sidebar. Search for "Remote SSH" and install the "Remote - SSH" extension
-from Microsoft.
+The Remote SSH extension in VS Code lets you easily edit files and run commands
+on the Pi from your laptop. To configure this, open a new VS Code window and 
+click on the Extensions icon in the left sidebar. Search for "Remote SSH" and
+install the "Remote - SSH" extension from Microsoft.
 
 <image src="doc_images/vscode1.png" width="400px"/>
+
+### Add your Pi as a host
 
 After it has installed, click the newly-added Remote Explorer icon on the
 sidebar. When you mouse over the SSH heading, you should see a plus icon to the
@@ -349,10 +350,12 @@ right.
 
 <image src="doc_images/vscode5.png" width="400px"/>
 
-Click on that, and type in the same address and username that you used 
-to ssh into the Pi earlier. For example, if you were able to ssh in using the
-command `ssh petewarden@192.168.86.29`, you would enter that whole command into
-the text field. 
+Click on that, and type in the same address that you noted down from the 
+earlier steps, and the username you picked when flashing the SD card. 
+
+For example, if you picked the username `petewarden` and the IP address of the
+board is 192.168.86.29, you would enter `ssh petewarden@192.168.86.29` into the
+text field. 
 
 <image src="doc_images/vscode6.png" width="400px"/>
 
@@ -361,18 +364,38 @@ the default location.
 
 <image src="doc_images/vscode7.png" width="400px"/>
 
-Once that's complete, you should see an option to connect to the host. Click 
-it.
+### Connect to to the Pi
+
+Once you've completed adding your Pi as a host, you should see an option to 
+connect to it.
 
 <image src="doc_images/vscode8.png" width="400px"/>
 
-You should now see a new window appear. If you're using a password, you'll see
-a prompt to enter your password at the top. Once you're logged in there should
-be a few progress messages such as "Downloading VS Code Server". After they
-complete, you should see a small connection message in the bottom left of the
-window that says `SSH: 192.168.86.29`, but with your machine's IP address.
+When you select it you should see a new window appear. If you're using a 
+password, you'll see a prompt to enter your password at the top. Once you're
+logged in there should be a few progress messages such as "Downloading VS Code
+Server". After they complete, you should see a small connection message in the
+bottom left of the window that says `SSH: 192.168.86.29`, but with your Pi's IP
+address.
 
 <image src="doc_images/vscode10.png" width="400px"/>
+
+### Troubleshoot connection issues
+
+If you are seeing error messages, I recommend going through this checklist:
+
+ - Make sure your laptop and Pi are on the same Wifi network.
+ - Ensure that the SSH server that listens for connections is enabled on the 
+Pi. This should have happened in the Advanced Settings dialog during the 
+flashing process, but if you forgot to do it then, you can open up a terminal
+on the Pi, run `sudo raspi-config`, select `Interfacing Options`, pick `SSH`,
+and then choose "Yes" to turn it on.
+ - Check to see if the IP address of the board has changed since you noted it
+down. Some networks assign a new IP address every time the Pi reboots, so 
+follow [the instructions above](#find-your-ip-address) to check it from the 
+Wifi menu.
+
+### Download the code
 
 If that process worked, choose "Clone Git Repository..." from the options on
 the start screen, and enter `https://github.com/ee292d/labs` when asked for the
@@ -401,58 +424,9 @@ bring up a shell running on the board. You can now edit files and run commands
 on the Pi directly from your laptop, which is often a lot easier than other
 approaches to coding on the board.
 
-## Connecting the Display and Keyboard
-
-You can do a lot of things through VS Code's remote connection, but there are
-some tasks, like troubleshooting network issues or displaying graphical 
-outputs, that are easier to do from the Pi's own desktop.
-
-Almost any HDMI-compatible display will work for a monitor, including a modern
-TV if that's all you have. The Pi itself uses an unusual type of HDMI port, 
-"HDMI Micro", so you'll need to make sure you either have a cable with one of
-these on one end, and a full-size HDMI plug on the other, or an adaptor that
-converts from Micro to regular, together with a standard HDMI cable. Most 
-starter kits should include one of these adaptors, so check what you received
-before you order a separate one.
-
-To connect to the display, power down the Pi, plug in the HDMI cable to the
-HDMI port that's furthest from the USB C power supply, labeled HDMI 1 if your
-eyesight is better than mine. I found that the other HDMI port didn't show the
-desktop.
-
-<image src="doc_images/hdmi_port.jpg" width="400px"/>
-
-After you've connected and powered up the monitor, power up the board again. 
-The Pi can often work when "hot swapping" a monitor, but I find the most 
-reliable way of getting a display working is ensuring it's connected and 
-powered at boot time. After a minute or so, you should see a desktop appear on
-your monitor.
-
-<image src="doc_images/desktop.jpg" width="400px"/>
-
-You'll need a USB keyboard and mouse too. I'm fond of 
-[the Reiie mini keyboard](https://www.amazon.com/dp/B06X9J8NG4) because it also
-includes a touchpad, though it's so small I wouldn't recommend using it for
-more than short periods of setup and data entry. You'll need to insert the BLE
-dongle into a USB port and ensure the switch on the back of the controller is
-slid to the right so that it's on.
-
-## Cases and Cooling
-
-So far we've been working with the Pi as a bare circuit board, with no case,
-heatsink, or fan. This is fine for getting started, but a case will help
-protect the board from damage, and a heatsink and a fan will ensure that you
-get the maximum speed out of your Pi, even under heavy load.
-
-Many starter kits will include a case, heatsink, and fan, but the details of
-how to attach them vary, so you should look at the instructions for your setup.
-If you don't have a case or fan, don't worry, it won't stop you being able to
-use your Pi, you just may see slower speeds on some of the examples as the CPU
-heats up and the clock rate is throttled.
-
 ## Next Steps
 
 You should now have a fully-working Raspberry Pi 5 that you can program using
 Visual Studio Code from your laptop. You're now ready to learn about all the
-machine learning applications you can build on the system, with the rest of the
-labs.
+machine learning applications you can build on the system, using [the rest of the
+labs](https://github.com/ee292d/labs).
