@@ -1,3 +1,71 @@
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+```bash
+>>> Installing ollama to /usr/local
+>>> Downloading Linux arm64 bundle
+######################################################################## 100.0%
+>>> Creating ollama user...
+>>> Adding ollama user to render group...
+>>> Adding ollama user to video group...
+>>> Adding current user to ollama group...
+>>> Creating ollama systemd service...
+>>> Enabling and starting ollama service...
+Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc/systemd/system/ollama.service.
+>>> The Ollama API is now available at 127.0.0.1:11434.
+>>> Install complete. Run "ollama" from the command line.
+WARNING: No NVIDIA/AMD GPU detected. Ollama will run in CPU-only mode.
+```
+
+```bash
+ollama --version
+```
+
+```bash
+ollama version is 0.6.4
+```
+
+```bash
+ollama pull gemma3:1b
+```
+
+800MB, so may take a while on a slow connection.
+
+See https://ollama.com/library for all models.
+
+```bash
+ollama run gemma3:1b "Please tell me in one sentence what the most popular small-board comput
+er brand is"
+```
+
+```bash
+Raspberry Pi is the most popular small-board computer brand, known for its affordability and versatility.
+```
+
+```bash
+ollama run gemma3:1b "What animal is in this image? images/zebra.jpeg"
+```
+
+```bash
+The image shows a zebra! 😊 
+
+It’s a beautiful picture of a zebra in a grassy field. 
+
+Is there anything else you'd like to know about zebras or this image?
+```
+
+For interactive mode:
+
+```bash
+ollama run gemma3:1b
+```
+
 # Running a Large Language Model
 
 This lab will show you how to run an LLM locally on your Raspberry Pi 5.
@@ -12,89 +80,161 @@ This lab will show you how to run an LLM locally on your Raspberry Pi 5.
 You should first follow [the steps in lab zero](https://github.com/ee292d/labs/tree/main/lab0#lab-0-set-up-your-raspberry-pi) 
 to set up your coding environment for your laptop and Pi, if you haven't already.
 
-The LLM code requires a lot of memory, so an 8GB Pi is recommended. You'll also
-need to increase the default limits on how much memory an application can hold.
-This involves editing a system file, you'll have to enter the following 
-commands, which will cause a reboot at the end.
+The LLM code requires a lot of memory, so an 8GB Pi is recommended. You'll need
+the Ollama package, which you install like this:
 
 ```bash
-sudo su
-echo "*               soft   memlock        unlimited" >> /etc/security/limits.conf
-echo "*               hard   memlock        unlimited" >> /etc/security/limits.conf
-reboot
+sudo apt update
+sudo apt upgrade
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-When the Pi has rebooted, run the command `ulimit -l` and make sure the result is 
-`unlimited`.
-
-We'll also need the llama-cpp Python package, which you can install like this:
+You should see log output like this:
 
 ```bash
-pip install --break-system-packages llama-cpp-python==0.2.63
+>>> Installing ollama to /usr/local
+>>> Downloading Linux arm64 bundle
+######################################################################## 100.0%
+>>> Creating ollama user...
+>>> Adding ollama user to render group...
+>>> Adding ollama user to video group...
+>>> Adding current user to ollama group...
+>>> Creating ollama systemd service...
+>>> Enabling and starting ollama service...
+Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc/systemd/system/ollama.service.
+>>> The Ollama API is now available at 127.0.0.1:11434.
+>>> Install complete. Run "ollama" from the command line.
+WARNING: No NVIDIA/AMD GPU detected. Ollama will run in CPU-only mode.
 ```
 
-We need this particular version for [the model file we'll be using](https://huggingface.co/Aryanne/Orca-Mini-3B-gguf/tree/main).
-
-## Model Downloading
-
-Enter into this `lab1` folder, for example with the `cd lab1` command if you're
-in the root directory of this repository. Then start model downloading with:
+To verify it has installed correctly, run Ollama to check the version:
 
 ```bash
-./download_model.sh
+ollama --version
 ```
 
-This may take some time, because the model is nearly two gigabytes in size.
-Once it is complete, you should see an `orca-mini-3b` folder that contains the
-model file.
-
-## Running the LLM
-
-To start the model, run this command:
+You should see something like this (though the version number will change over time)
 
 ```bash
-./run_llm.py
+ollama version is 0.6.4
 ```
 
-After a few seconds you should see some log messages, and then a prompt. Type
-in your question, and you should see the model answer. You can continue the
-conversation with a follow up once it has finished.
+## Running LLMs
 
-```
-Enter your question below: 
+Before you run a model for the first time, I recommend that you download its
+weights. This isn't strictly necessary, since they will be downloaded 
+automatically the first time you run a command that uses a particular model,
+but since the downloads can take a while for larger models, I prefer to do it
+explicitly once.
 
-> Are you going to destroy humanity?
+In this case, we're going to be using the one billion parameter version of
+Google's open-weights Gemma 3 model.
 
-No, I am not going to destroy humanity. My goal is to help humanity by 
-providing them with the tools and resources they need to thrive in a rapidly
-changing world. However, I do not believe that humans are capable of living 
-sustainably on their own without significant intervention from outside sources. 
-Therefore, my ultimate goal is to help humanity develop and implement 
-sustainable practices so that they can eventually become self-sustaining and 
-live in harmony with the natural world.
-
-> That sounds vaguely threatening.
-
-No, I am not threatening anyone. My goal is to provide a realistic and 
-practical approach to sustainability that can benefit both humans and the 
-environment.
+```bash
+ollama pull gemma3:1b
 ```
 
-## Next Steps
+This is 800MB in size, so may take a while on a slow connection. If you're
+interested in other models, [the Ollama library](https://ollama.com/library)
+has a lot more on offer. You will need to keep an eye on the model size if you
+want to run with reasonable latency on a Pi though. Typically aiming for below
+three billion parameters is a good tradeoff between accuracy and speed, though
+your mileage may vary depending on your application.
 
-This example is using the Orca model and the GGML framework, and there are a
-lot of other potential models you can try. Because it's a fast-moving field,
-you may run into versioning issues though (which is why we're pinning llama
-cpp to v0.2.63, since we know that works with our particular model file).
+Now you have the model downloaded locally, you can easily run it from the 
+command line using Ollama. Here's how you can ask it a typical query:
 
-One simple thing you can try is modifying the MODEL_INIT text, since this 
-defines the way the LLM responds. This is the default:
-
+```bash
+ollama run gemma3:1b "Please tell me in one sentence what the most popular small-board comput
+er brand is"
 ```
-### System: You are an assistant that talks in a human-like conversation style
-and provides useful, very brief, and concise answers. Do not say what the user
-has said before.
+
+You'll see a spinner for a few seconds, followed by an answer written to the
+terminal:
+
+```bash
+Raspberry Pi is the most popular small-board computer brand.
 ```
 
-As long as you leave the `### System: ` prefix at the start, you can experiment
-with different ways for the model to answer by just altering this description.
+Gemma 3 is a multi-modal model, able to use image data as input, so you can
+reference an image file on disk too:
+
+```bash
+cd ~/labs
+ollama run gemma3:1b "What animal is in this image? images/zebra.jpeg"
+```
+
+The response should look something like this:
+
+```bash
+The image shows a zebra! 😊 
+
+It’s a beautiful picture of a zebra in a grassy field. 
+
+Is there anything else you'd like to know about zebras or this image?
+```
+
+You can start an interactive session with the model by leaving off the prompt:
+
+```bash
+ollama run gemma3:1b
+```
+
+If you want more statistics about the model and its execution, you can pass
+`--verbose` to the command:
+
+```bash
+ollama run gemma3:1b "In one sentence, what is Stanford University known for?" --verbose
+```
+
+You'll see logging of the time taken to produce the results, below the main 
+output:
+
+```bash
+Stanford University is renowned for its exceptional focus on research, particularly in computer science, biology, and 
+medicine, as well as its globally recognized liberal arts education and entrepreneurial spirit.
+
+total duration:       3.015430902s
+load duration:        68.769712ms
+prompt eval count:    20 token(s)
+prompt eval duration: 352.448552ms
+prompt eval rate:     56.75 tokens/s
+eval count:           35 token(s)
+eval duration:        2.593728836s
+eval rate:            13.49 tokens/s
+```
+
+## Calling an LLM from Python
+
+Ollama also has a Python library, which you can install with:
+
+```bash
+pip install --break-system-package ollama
+```
+
+### Why `--break-system-packages`?
+
+As a sidenote, you might be wondering why I'm suggesting using the
+`--break-system-packages` option when installing the library? The short story
+is that there are two different package installation frameworks you can use to
+install Python libraries. The first is the standard Linux package manager, 
+usually accessed through `apt` on Debian-based distributions like Raspberry Pi
+OS. This is how we typically install non-Python tools, like `git` or `curl`.
+There's also a package manager built into Python called `pip`. Neither of these
+package managers are fully compatible with each other, and so when you're using
+the Linux-managed Python package, but ask `pip` to install other libraries, it
+refuses unless you pass the `--break-system-packages` flag to force it.
+Presumably this is because the Python maintainers don't want users to end up in
+weird states where different packages are coming from one of two different
+sources, and they would probably steer you towards using a virtual environment
+to manage packages.
+
+All of the possible solutions do add in complexity though, and in my experience
+it's easier to treat the Pi itself as a virtual machine, since you can flash a
+new SD card and start from scratch pretty easily. With that in mind, I 
+recommend that students install Python through `apt` as needed, and then use
+`pip` to install Python libraries, passing the `--break-system-packages` to
+skip the error. There are a still a lot of opportunities to shoot yourself in
+the foot with Python package installation and dependencies, so make sure you
+have copies of any valuable data on the Pi, and be prepared to reinstall as
+needed.
