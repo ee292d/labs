@@ -1,84 +1,26 @@
-```bash
-sudo apt update
-sudo apt upgrade
-```
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-```bash
->>> Installing ollama to /usr/local
->>> Downloading Linux arm64 bundle
-######################################################################## 100.0%
->>> Creating ollama user...
->>> Adding ollama user to render group...
->>> Adding ollama user to video group...
->>> Adding current user to ollama group...
->>> Creating ollama systemd service...
->>> Enabling and starting ollama service...
-Created symlink /etc/systemd/system/default.target.wants/ollama.service → /etc/systemd/system/ollama.service.
->>> The Ollama API is now available at 127.0.0.1:11434.
->>> Install complete. Run "ollama" from the command line.
-WARNING: No NVIDIA/AMD GPU detected. Ollama will run in CPU-only mode.
-```
-
-```bash
-ollama --version
-```
-
-```bash
-ollama version is 0.6.4
-```
-
-```bash
-ollama pull gemma3:1b
-```
-
-800MB, so may take a while on a slow connection.
-
-See https://ollama.com/library for all models.
-
-```bash
-ollama run gemma3:1b "Please tell me in one sentence what the most popular small-board comput
-er brand is"
-```
-
-```bash
-Raspberry Pi is the most popular small-board computer brand, known for its affordability and versatility.
-```
-
-```bash
-ollama run gemma3:1b "What animal is in this image? images/zebra.jpeg"
-```
-
-```bash
-The image shows a zebra! 😊 
-
-It’s a beautiful picture of a zebra in a grassy field. 
-
-Is there anything else you'd like to know about zebras or this image?
-```
-
-For interactive mode:
-
-```bash
-ollama run gemma3:1b
-```
-
 # Running a Large Language Model
 
-This lab will show you how to run an LLM locally on your Raspberry Pi 5.
+This lab will show you how to run an LLM locally on your Raspberry Pi 5 using
+the [Ollama](https://ollama.com/) framework.
 
- * [Setup](#setup)
- * [Model Downloading](#model-downloading)
- * [Running the LLM](#running-the-llm)
- * [Next Steps](#next-steps)
+  - [Setup](#setup)
+  - [Running LLMs](#running-llms)
+  - [Calling an LLM from Python](#calling-an-llm-from-python)
+    - [Why `--break-system-packages`?](#why---break-system-packages)
+    - [Calling a model from Python](#calling-a-model-from-python)
+  - [Next Steps](#next-steps)
 
 ## Setup
 
 You should first follow [the steps in lab zero](https://github.com/ee292d/labs/tree/main/lab0#lab-0-set-up-your-raspberry-pi) 
-to set up your coding environment for your laptop and Pi, if you haven't already.
+to set up your coding environment for your laptop and Pi, if you haven't 
+already. The connect to your Pi, either through a remote connection or using an
+attached monitor and keyboard and opening up the terminal. Make sure you're in
+the same directory as this repository by running:
+
+```bash
+cd ~/labs
+```
 
 The LLM code requires a lot of memory, so an 8GB Pi is recommended. You'll need
 the Ollama package, which you install like this:
@@ -160,7 +102,6 @@ Gemma 3 is a multi-modal model, able to use image data as input, so you can
 reference an image file on disk too:
 
 ```bash
-cd ~/labs
 ollama run gemma3:1b "What animal is in this image? images/zebra.jpeg"
 ```
 
@@ -191,8 +132,7 @@ You'll see logging of the time taken to produce the results, below the main
 output:
 
 ```bash
-Stanford University is renowned for its exceptional focus on research, particularly in computer science, biology, and 
-medicine, as well as its globally recognized liberal arts education and entrepreneurial spirit.
+Stanford University is renowned for its exceptional focus on research, particularly in computer science, biology, and medicine, as well as its globally recognized liberal arts education and entrepreneurial spirit.
 
 total duration:       3.015430902s
 load duration:        68.769712ms
@@ -213,6 +153,8 @@ pip install --break-system-package ollama
 ```
 
 ### Why `--break-system-packages`?
+
+[!NOTE]
 
 As a sidenote, you might be wondering why I'm suggesting using the
 `--break-system-packages` option when installing the library? The short story
@@ -238,3 +180,48 @@ skip the error. There are a still a lot of opportunities to shoot yourself in
 the foot with Python package installation and dependencies, so make sure you
 have copies of any valuable data on the Pi, and be prepared to reinstall as
 needed.
+
+### Calling a model from Python
+
+After you've installed the Ollama Python package, you can run the example 
+script like this:
+
+```bash
+python3 lab1/run_llm.py
+
+```
+
+You should see something like this:
+
+```bash
+Puppies' adorable features, combined with their playful and enthusiastic personalities, trigger a powerful sense of cuteness in humans.
+```
+
+If you look inside the [`run_llm.py`](https://github.com/ee292d/labs/lab1/run_llm.py)
+script, you'll see it only takes a few lines of code to call a model:
+
+```Python
+from ollama import chat
+from ollama import ChatResponse
+
+response: ChatResponse = chat(model='gemma3:1b', messages=[
+  {
+    'role': 'user',
+    'content': 'In one sentence, why are puppies so cute?',
+  },
+])
+
+print(response.message.content)
+```
+
+The [Python-Ollama documentation](https://github.com/ollama/ollama-python)
+shows how you can customize how you interact with models from Python.
+
+## Next Steps
+
+LLMs are very versatile, and with multi-modal inputs they can perform a lot of
+the tasks previously handled by special-purpose convolution neural networks
+(CNNs). However, there are still good reasons to use specialized CNNs for some
+applications, because of latency, resource-usage, trainability, and accuracy
+tradeoffs. The following labs will look at some of those approaches in-depth,
+but LLMs are always a good method to try first.
