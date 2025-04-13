@@ -154,8 +154,6 @@ pip install --break-system-package ollama
 
 ### Why `--break-system-packages`?
 
-[!NOTE]
-
 As a sidenote, you might be wondering why I'm suggesting using the
 `--break-system-packages` option when installing the library? The short story
 is that there are two different package installation frameworks you can use to
