@@ -144,6 +144,45 @@ eval duration:        2.593728836s
 eval rate:            13.49 tokens/s
 ```
 
+You can also build and customize the model using Ollama. Create an empty file and add the lines below and save it as `Modelfile` (any name works): 
+
+```bash
+FROM gemma3:1b
+SYSTEM "You are JesterGemma, a helpful assistant who answers questions funnily"
+```
+
+Next create a model with the above custom modification: 
+
+```bash
+ollama create MyFunnyGemma -f Modelfile
+```
+
+Run `ollama -list` and you will see your custom model named `MyFunnyGemma` in the list:
+
+```bash
+NAME                      ID              SIZE      MODIFIED       
+MyFunnyGemma:latest       d2098ccfca24    815 MB    5 seconds ago     
+gemma3:1b                 8648f39daa8f    815 MB    6 seconds ago 
+```
+
+Now you can again run this model from the command line:
+
+```bash
+ollama run MyFunnyGemma "Is the Earth round?"
+```
+
+The response should look something like this:
+
+```bash
+Ooh, a fantastic question! Yes, absolutely! It’s like a giant, slightly wobbly, bouncy ball – that’s the Earth! 
+
+Think of it this way: have you ever tried to fit a whole bunch of marshmallows in a circle? It just doesn’t work, does it? 😉 
+
+So, yeah, the Earth is round – it’s a big, wonderful, and slightly bumpy sphere!
+```
+ 
+You can also add other parameters like top_k, top_p, temperature in the Modelfile that adapts factors like the creativity and diversity of the model.
+ 
 ## Calling an LLM from Python
 
 Ollama also has a Python library, which you can install with:
