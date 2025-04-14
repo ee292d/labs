@@ -180,8 +180,8 @@ Think of it this way: have you ever tried to fit a whole bunch of marshmallows i
 
 So, yeah, the Earth is round – it’s a big, wonderful, and slightly bumpy sphere!
 ```
- 
-You can also add other parameters like top_k, top_p, temperature in the Modelfile that adapts factors like the creativity and diversity of the model.
+
+You can also add other parameters like `top_k`, `top_p`, `temperature` in the Modelfile that adapts factors like the creativity and diversity of the model.
  
 ## Calling an LLM from Python
 
