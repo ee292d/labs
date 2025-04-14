@@ -5,6 +5,7 @@ the [Ollama](https://ollama.com/) framework.
 
   - [Setup](#setup)
   - [Running LLMs](#running-llms)
+    - [Customizing models](#customizing-models)
   - [Calling an LLM from Python](#calling-an-llm-from-python)
     - [Why `--break-system-packages`?](#why---break-system-packages)
     - [Calling a model from Python](#calling-a-model-from-python)
@@ -143,6 +144,8 @@ eval count:           35 token(s)
 eval duration:        2.593728836s
 eval rate:            13.49 tokens/s
 ```
+
+### Customizing models
 
 You can also build and customize the model using Ollama. Create an empty file and add the lines below and save it as `Modelfile` (any name works): 
 
