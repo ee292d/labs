@@ -101,10 +101,7 @@ To run transcription on live audio, use this command:
 ```bash
 python live_captions.py
 ```
-
-You can replace the microphone name with anything you saw in the device list,
-but "default" is a good place to start for most setups.
-
+  
 Here's some example output from me speaking into the microphone:
 
 ```bash
@@ -113,6 +110,13 @@ Press Ctrl+C to quit live captions.
 
 t the moonshine. Speech to text, Model Uh and it seems to be working fairly well
 ```
+
+If you look in [this script](https://github.com/ee292d/labs/blob/main/lab4/live_captions.py),
+it uses the [Silero VAD (Voice Activity Detection) model](https://github.com/snakers4/silero-vad) 
+to figure out if someone is actually speaking. Running speech recognition
+models on silence can result in hallucinations, so it's often a good practice
+to run a VAD model on input audio first to avoid that situation as much as 
+possible.
 
 ## Trying different models
 
