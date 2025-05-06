@@ -96,6 +96,12 @@ If not, debugging the Linux sound system is too large a topic to cover in this
 tutorial unfortunately, but I recommend trying different microphones as a first
 step.
 
+For the next step, you'll need a voice activity detector:
+
+```bash
+pip install --break-system-packages silero-vad
+```
+
 To run transcription on live audio, use this command:
 
 ```bash
